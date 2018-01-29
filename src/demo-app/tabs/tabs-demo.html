@@ -19,6 +19,22 @@
   <router-outlet></router-outlet>
 </div>
 
+<button mat-button (click)="longTabLinkList.shift()">Remove tab</button>
+<button mat-button (click)="longTabLinkList.push('')">Add tab</button>
+<button mat-button (click)="showLargeLabels = !showLargeLabels">Show Large Labels</button>
+
+<div class="demo-nav-bar">
+  <nav mat-tab-nav-bar aria-label="long list of nav links" [backgroundColor]="tabNavBackground">
+    <a mat-tab-link
+       *ngFor="let tabLink of longTabLinkList; let i = index"
+       (click)="activeLongTabLink = i"
+       (keydown.enter)="activeLongTabLink = i"
+       [active]="activeLongTabLink === i">
+      <span *ngIf="showLargeLabels">Larger tab label</span> Tab {{i}}
+    </a>
+  </nav>
+  Tab {{activeLongTabLink}}
+</div>
 
 <h1>Tab Group Demo - Dynamic Tabs</h1>
 

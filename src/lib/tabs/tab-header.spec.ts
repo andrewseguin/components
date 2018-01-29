@@ -1,15 +1,15 @@
 import {
   async,
   ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
   discardPeriodicTasks,
+  fakeAsync,
+  TestBed,
+  tick,
 } from '@angular/core/testing';
 import {Component, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {By} from '@angular/platform-browser';
-import {ENTER, LEFT_ARROW, RIGHT_ARROW, SPACE, HOME, END} from '@angular/cdk/keycodes';
+import {END, ENTER, HOME, LEFT_ARROW, RIGHT_ARROW, SPACE} from '@angular/cdk/keycodes';
 import {PortalModule} from '@angular/cdk/portal';
 import {Direction, Directionality} from '@angular/cdk/bidi';
 import {dispatchFakeEvent, dispatchKeyboardEvent} from '@angular/cdk/testing';
@@ -18,7 +18,7 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatInkBar} from './ink-bar';
 import {MatTabLabelWrapper} from './tab-label-wrapper';
 import {Subject} from 'rxjs/Subject';
-import {VIEWPORT_RULER_PROVIDER, ScrollDispatchModule} from '@angular/cdk/scrolling';
+import {ScrollDispatchModule, VIEWPORT_RULER_PROVIDER} from '@angular/cdk/scrolling';
 
 
 describe('MatTabHeader', () => {
@@ -360,8 +360,8 @@ interface Tab {
   template: `
   <div [dir]="dir">
     <mat-tab-header [selectedIndex]="selectedIndex" [disableRipple]="disableRipple"
-               (indexFocused)="focusedIndex = $event"
-               (selectFocusedIndex)="selectedIndex = $event">
+                    (indexFocused)="focusedIndex = $event"
+                    (selectFocusedIndex)="selectedIndex = $event">
       <div matTabLabelWrapper style="min-width: 30px; width: 30px"
            *ngFor="let tab of tabs; let i = index"
            [disabled]="!!tab.disabled"

@@ -1,11 +1,6 @@
 @import '../tabs-common';
 @import '../../core/style/variables';
 
-// Wraps the bar containing the anchors
-.mat-tab-nav-bar {
-  @include tab-header;
-}
-
 .mat-tab-links {
   position: relative;
 }

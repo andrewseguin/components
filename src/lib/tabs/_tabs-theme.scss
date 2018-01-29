@@ -10,13 +10,11 @@
   $foreground: map-get($theme, foreground);
   $header-border: 1px solid mat-color($foreground, divider);
 
-  .mat-tab-nav-bar,
   .mat-tab-header {
     border-bottom: $header-border;
   }
 
   .mat-tab-group-inverted-header {
-    .mat-tab-nav-bar,
     .mat-tab-header {
       border-top: $header-border;
       border-bottom: none;

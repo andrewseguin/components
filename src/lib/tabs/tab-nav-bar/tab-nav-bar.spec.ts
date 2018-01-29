@@ -1,7 +1,7 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Component, ViewChild} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {dispatchFakeEvent, dispatchMouseEvent, createMouseEvent} from '@angular/cdk/testing';
+import {createMouseEvent, dispatchMouseEvent} from '@angular/cdk/testing';
 import {Direction, Directionality} from '@angular/cdk/bidi';
 import {Subject} from 'rxjs/Subject';
 import {MatTabLink, MatTabNav, MatTabsModule} from '../index';
@@ -165,54 +165,6 @@ describe('MatTabNavBar', () => {
       expect(tabLinkElement.querySelectorAll('.mat-ripple-element').length)
         .toBe(0, 'Expected no ripple to show up if ripples are disabled.');
     });
-
-    it('should re-align the ink bar when the direction changes', () => {
-      const inkBar = fixture.componentInstance.tabNavBar._inkBar;
-
-      spyOn(inkBar, 'alignToElement');
-
-      dirChange.next();
-      fixture.detectChanges();
-
-      expect(inkBar.alignToElement).toHaveBeenCalled();
-    });
-
-    it('should re-align the ink bar when the tabs list change', () => {
-      const inkBar = fixture.componentInstance.tabNavBar._inkBar;
-
-      spyOn(inkBar, 'alignToElement');
-
-      fixture.componentInstance.tabs = [1, 2, 3, 4];
-      fixture.detectChanges();
-
-      expect(inkBar.alignToElement).toHaveBeenCalled();
-    });
-
-    it('should re-align the ink bar when the tab labels change the width', done => {
-      const inkBar = fixture.componentInstance.tabNavBar._inkBar;
-
-      const spy = spyOn(inkBar, 'alignToElement').and.callFake(() => {
-        expect(spy.calls.any()).toBe(true);
-        done();
-      });
-
-      fixture.componentInstance.label = 'label change';
-      fixture.detectChanges();
-
-      expect(spy.calls.any()).toBe(false);
-    });
-
-    it('should re-align the ink bar when the window is resized', fakeAsync(() => {
-      const inkBar = fixture.componentInstance.tabNavBar._inkBar;
-
-      spyOn(inkBar, 'alignToElement');
-
-      dispatchFakeEvent(window, 'resize');
-      tick(150);
-      fixture.detectChanges();
-
-      expect(inkBar.alignToElement).toHaveBeenCalled();
-    }));
   });
 
   it('should clean up the ripple event handlers on destroy', () => {

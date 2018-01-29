@@ -1,8 +1,8 @@
 <mat-tab-header #tabHeader
-               [selectedIndex]="selectedIndex"
-               [disableRipple]="disableRipple"
-               (indexFocused)="_focusChanged($event)"
-               (selectFocusedIndex)="selectedIndex = $event">
+                [selectedIndex]="selectedIndex"
+                [disableRipple]="disableRipple"
+                (indexFocused)="_focusChanged($event)"
+                (selectFocusedIndex)="selectedIndex = $event">
   <div class="mat-tab-label" role="tab" matTabLabelWrapper mat-ripple
        *ngFor="let tab of _tabs; let i = index"
        [id]="_getTabLabelId(i)"

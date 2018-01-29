@@ -9,6 +9,14 @@
 import {Directive, ElementRef} from '@angular/core';
 import {CanDisable, mixinDisabled} from '@angular/material/core';
 
+export interface MatTabHeaderLabel {
+  elementRef: ElementRef;
+  disabled: boolean;
+  focus();
+  getOffsetLeft();
+  getOffsetWidth();
+}
+
 // Boilerplate for applying mixins to MatTabLabelWrapper.
 /** @docs-private */
 export class MatTabLabelWrapperBase {}
@@ -25,7 +33,8 @@ export const _MatTabLabelWrapperMixinBase = mixinDisabled(MatTabLabelWrapperBase
     '[class.mat-tab-disabled]': 'disabled'
   }
 })
-export class MatTabLabelWrapper extends _MatTabLabelWrapperMixinBase implements CanDisable {
+export class MatTabLabelWrapper extends _MatTabLabelWrapperMixinBase
+    implements MatTabHeaderLabel, CanDisable {
   constructor(public elementRef: ElementRef) {
     super();
   }

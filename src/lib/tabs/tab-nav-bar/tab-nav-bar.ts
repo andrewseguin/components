@@ -5,15 +5,12 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Directionality} from '@angular/cdk/bidi';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Platform} from '@angular/cdk/platform';
-import {ViewportRuler} from '@angular/cdk/scrolling';
 import {
   AfterContentInit,
   Attribute,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChildren,
   Directive,
@@ -37,17 +34,15 @@ import {
   mixinColor,
   mixinDisabled,
   mixinDisableRipple,
-  mixinTabIndex, RippleConfig,
+  mixinTabIndex,
+  RippleConfig,
   RippleGlobalOptions,
   RippleRenderer,
   RippleTarget,
   ThemePalette,
 } from '@angular/material/core';
-import {merge} from 'rxjs/observable/merge';
-import {of as observableOf} from 'rxjs/observable/of';
-import {takeUntil} from 'rxjs/operators/takeUntil';
-import {Subject} from 'rxjs/Subject';
-import {MatInkBar} from '../ink-bar';
+import {MatTabHeaderLabel} from '../tab-label-wrapper';
+import {MatTabHeader} from '../tab-header';
 
 
 // Boilerplate for applying mixins to MatTabNav.
@@ -73,20 +68,17 @@ export const _MatTabNavMixinBase = mixinColor(MatTabNavBase, 'primary');
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatTabNav extends _MatTabNavMixinBase implements AfterContentInit, CanColor,
-    OnDestroy {
+export class MatTabNav extends _MatTabNavMixinBase implements AfterContentInit, CanColor {
+  /** Index of the active link. */
+  _activeIndex: number;
 
-  /** Subject that emits when the component has been destroyed. */
-  private readonly _onDestroy = new Subject<void>();
-
-  _activeLinkChanged: boolean;
-  _activeLinkElement: ElementRef;
-
-  @ViewChild(MatInkBar) _inkBar: MatInkBar;
+  /** Whether the active link has been changed. Reset to false after content checked. */
+  _activeLinkChanged = false;
 
   /** Query list of all tab links of the tab navigation. */
-  @ContentChildren(forwardRef(() => MatTabLink), {descendants: true})
-  _tabLinks: QueryList<MatTabLink>;
+  @ContentChildren(forwardRef(() => MatTabLink), {descendants: true}) _links: QueryList<MatTabLink>;
+
+  @ViewChild(MatTabHeader) tabHeader: MatTabHeader;
 
   /** Background color of the tab nav. */
   @Input()
@@ -113,63 +105,47 @@ export class MatTabNav extends _MatTabNavMixinBase implements AfterContentInit, 
   }
   private _disableRipple: boolean = false;
 
-  constructor(elementRef: ElementRef,
-              @Optional() private _dir: Directionality,
-              private _ngZone: NgZone,
-              private _changeDetectorRef: ChangeDetectorRef,
-              private _viewportRuler: ViewportRuler) {
+  constructor(elementRef: ElementRef, private _changeDetectorRef: ChangeDetectorRef) {
     super(elementRef);
   }
 
-  /** Notifies the component that the active link has been changed. */
-  updateActiveLink(element: ElementRef) {
-    this._activeLinkChanged = this._activeLinkElement != element;
-    this._activeLinkElement = element;
-
-    if (this._activeLinkChanged) {
-      this._changeDetectorRef.markForCheck();
-    }
-  }
-
   ngAfterContentInit(): void {
-    this._ngZone.runOutsideAngular(() => {
-      const dirChange = this._dir ? this._dir.change : observableOf(null);
-
-      return merge(dirChange, this._viewportRuler.change(10)).pipe(takeUntil(this._onDestroy))
-          .subscribe(() => this._alignInkBar());
-    });
-
     this._setLinkDisableRipple();
+
+    this._updateActiveIndex();
+    this._links.changes.subscribe(() => this._updateActiveIndex());
   }
 
-  /** Checks if the active link has been changed and, if so, will update the ink bar. */
   ngAfterContentChecked(): void {
     if (this._activeLinkChanged) {
-      this._alignInkBar();
+      this._updateActiveIndex();
       this._activeLinkChanged = false;
     }
   }
 
-  ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
-  }
-
-  /** Aligns the ink bar to the active link. */
-  _alignInkBar(): void {
-    if (this._activeLinkElement) {
-      this._inkBar.alignToElement(this._activeLinkElement.nativeElement);
-    }
+  setFocus(link: MatTabLink) {
+    this.tabHeader.focusIndex = this._links.toArray().indexOf(link);
   }
 
   /** Sets the `disableRipple` property on each link of the navigation bar. */
   private _setLinkDisableRipple() {
-    if (this._tabLinks) {
-      this._tabLinks.forEach(link => link.disableRipple = this.disableRipple);
+    if (this._links) {
+      this._links.forEach(link => link.disableRipple = this.disableRipple);
     }
   }
-}
 
+  /** Updates the active index with the index of the current active link. */
+  private _updateActiveIndex() {
+    this._activeIndex = -1;
+    this._links.forEach((link, i) => {
+      if (link.active) {
+        this._activeIndex = i;
+      }
+    });
+
+    this._changeDetectorRef.markForCheck();
+  }
+}
 
 // Boilerplate for applying mixins to MatTabLink.
 export class MatTabLinkBase {}
@@ -189,26 +165,26 @@ export const _MatTabLinkMixinBase =
     '[attr.tabIndex]': 'tabIndex',
     '[class.mat-tab-disabled]': 'disabled',
     '[class.mat-tab-label-active]': 'active',
-    '(click)': '_handleClick($event)'
+    '(click)': '_handleClick($event)',
+    '(focus)': '_tabNavBar.setFocus(this)',
   }
 })
 export class MatTabLink extends _MatTabLinkMixinBase
-    implements OnDestroy, CanDisable, CanDisableRipple, HasTabIndex, RippleTarget {
+    implements MatTabHeaderLabel, OnDestroy, CanDisable,
+        CanDisableRipple, HasTabIndex, RippleTarget {
 
   /** Whether the tab link is active or not. */
   private _isActive: boolean = false;
 
   /** Reference to the RippleRenderer for the tab-link. */
-  private _tabLinkRipple: RippleRenderer;
+  private _rippleRenderer: RippleRenderer;
 
   /** Whether the link is active. */
   @Input()
   get active(): boolean { return this._isActive; }
   set active(value: boolean) {
     this._isActive = value;
-    if (value) {
-      this._tabNavBar.updateActiveLink(this._elementRef);
-    }
+    this._tabNavBar._activeLinkChanged = true;
   }
 
   /**
@@ -226,15 +202,15 @@ export class MatTabLink extends _MatTabLinkMixinBase
   }
 
   constructor(private _tabNavBar: MatTabNav,
-              private _elementRef: ElementRef,
+              public elementRef: ElementRef,
               ngZone: NgZone,
               platform: Platform,
               @Optional() @Inject(MAT_RIPPLE_GLOBAL_OPTIONS) globalOptions: RippleGlobalOptions,
               @Attribute('tabindex') tabIndex: string) {
     super();
 
-    this._tabLinkRipple = new RippleRenderer(this, ngZone, _elementRef, platform);
-    this._tabLinkRipple.setupTriggerEvents(_elementRef.nativeElement);
+    this._rippleRenderer = new RippleRenderer(this, ngZone, this.elementRef, platform);
+    this._rippleRenderer.setupTriggerEvents(this.elementRef.nativeElement);
 
     this.tabIndex = parseInt(tabIndex) || 0;
 
@@ -247,7 +223,19 @@ export class MatTabLink extends _MatTabLinkMixinBase
   }
 
   ngOnDestroy() {
-    this._tabLinkRipple._removeTriggerEvents();
+    this._rippleRenderer._removeTriggerEvents();
+  }
+
+  focus(): void {
+    this.elementRef.nativeElement.focus();
+  }
+
+  getOffsetLeft(): number {
+    return this.elementRef.nativeElement.offsetLeft;
+  }
+
+  getOffsetWidth(): number {
+    return this.elementRef.nativeElement.offsetWidth;
   }
 
   /**

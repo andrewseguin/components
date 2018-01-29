@@ -25,6 +25,10 @@ export class TabsDemo {
     {label: 'Fog', link: 'foggy-tab'},
   ];
 
+  showLargeLabels = false;
+  longTabLinkList = [];
+  activeLongTabLink = 0;
+
   tabNavBackground: any = undefined;
 
   // Standard tabs demo
@@ -77,6 +81,8 @@ export class TabsDemo {
         observer.next(this.tabs);
       }, 1000);
     });
+
+    this.longTabLinkList.length = 50;
   }
 
   addTab(includeExtraContent: boolean): void {

@@ -31,7 +31,7 @@ import {of as observableOf} from 'rxjs/observable/of';
 import {Subscription} from 'rxjs/Subscription';
 import {coerceNumberProperty} from '@angular/cdk/coercion';
 import {MatInkBar} from './ink-bar';
-import {MatTabLabelWrapper} from './tab-label-wrapper';
+import {MatTabHeaderLabel, MatTabLabelWrapper} from './tab-label-wrapper';
 import {ViewportRuler} from '@angular/cdk/scrolling';
 
 
@@ -78,13 +78,11 @@ export const _MatTabHeaderMixinBase = mixinDisableRipple(MatTabHeaderBase);
 export class MatTabHeader extends _MatTabHeaderMixinBase
     implements AfterContentChecked, AfterContentInit, OnDestroy, CanDisableRipple {
 
-  @ContentChildren(MatTabLabelWrapper) _labelWrappers: QueryList<MatTabLabelWrapper>;
   @ViewChild(MatInkBar) _inkBar: MatInkBar;
   @ViewChild('tabListContainer') _tabListContainer: ElementRef;
   @ViewChild('tabList') _tabList: ElementRef;
 
-  /** The tab index that is focused. */
-  private _focusIndex: number = 0;
+  @ContentChildren(MatTabLabelWrapper) _matTabLabelWrappers: QueryList<MatTabHeaderLabel>;
 
   /** The distance in pixels that the tab labels should be translated to the left. */
   private _scrollDistance = 0;
@@ -115,6 +113,18 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
 
   private _selectedIndex: number = 0;
 
+  /** The tab index that is focused. */
+  set focusIndex(value: number) {
+    // When the focus index is set, we must manually send focus to the correct label
+    if (!this._isValidIndex(value) || this._focusIndex == value) { return; }
+
+    this._focusIndex = value;
+    this.indexFocused.emit(value);
+    this._setTabFocus(value);
+  }
+  get focusIndex(): number { return this._focusIndex; }
+  private _focusIndex: number = 0;
+
   /** The index of the active tab. */
   @Input()
   get selectedIndex(): number { return this._selectedIndex; }
@@ -124,6 +134,8 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
     this._selectedIndex = value;
     this._focusIndex = value;
   }
+
+  @Input() labels: QueryList<MatTabHeaderLabel>;
 
   /** Event emitted when the option is selected. */
   @Output() readonly selectFocusedIndex = new EventEmitter();
@@ -140,9 +152,9 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
 
   ngAfterContentChecked(): void {
     // If the number of tab labels have changed, check if scrolling should be enabled
-    if (this._tabLabelCount != this._labelWrappers.length) {
+    if (this.labels && this._tabLabelCount != this.labels.length) {
       this._updatePagination();
-      this._tabLabelCount = this._labelWrappers.length;
+      this._tabLabelCount = this.labels.length;
       this._changeDetectorRef.markForCheck();
     }
 
@@ -193,6 +205,11 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
    * Aligns the ink bar to the selected tab on load.
    */
   ngAfterContentInit() {
+    // If labels were provided in content, override the input labels
+    if (this._matTabLabelWrappers.length) {
+      this.labels = this._matTabLabelWrappers;
+    }
+
     const dirChange = this._dir ? this._dir.change : observableOf(null);
     const resize = this._viewportRuler.change(150);
     const realign = () => {
@@ -227,27 +244,14 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
     this._checkScrollingControls();
     this._updateTabScrollPosition();
   }
-
-  /** When the focus index is set, we must manually send focus to the correct label */
-  set focusIndex(value: number) {
-    if (!this._isValidIndex(value) || this._focusIndex == value) { return; }
-
-    this._focusIndex = value;
-    this.indexFocused.emit(value);
-    this._setTabFocus(value);
-  }
-
-  /** Tracks which element has focus; used for keyboard navigation */
-  get focusIndex(): number { return this._focusIndex; }
-
   /**
    * Determines if an index is valid.  If the tabs are not ready yet, we assume that the user is
    * providing a valid index and return true.
    */
   _isValidIndex(index: number): boolean {
-    if (!this._labelWrappers) { return true; }
+    if (!this.labels) { return true; }
 
-    const tab = this._labelWrappers ? this._labelWrappers.toArray()[index] : null;
+    const tab = this.labels ? this.labels.toArray()[index] : null;
     return !!tab && !tab.disabled;
   }
 
@@ -260,8 +264,8 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
       this._scrollToLabel(tabIndex);
     }
 
-    if (this._labelWrappers && this._labelWrappers.length) {
-      this._labelWrappers.toArray()[tabIndex].focus();
+    if (this.labels && this.labels.length) {
+      this.labels.toArray()[tabIndex].focus();
 
       // Do not let the browser manage scrolling to focus the element, this will be handled
       // by using translation. In LTR, the scroll left should be 0. In RTL, the scroll width
@@ -282,8 +286,8 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
    * Valid offsets are 1 and -1.
    */
   _moveFocus(offset: number) {
-    if (this._labelWrappers) {
-      const tabs: MatTabLabelWrapper[] = this._labelWrappers.toArray();
+    if (this.labels) {
+      const tabs: MatTabLabelWrapper[] = this.labels.toArray();
 
       for (let i = this.focusIndex + offset; i < tabs.length && i >= 0; i += offset) {
         if (this._isValidIndex(i)) {
@@ -306,7 +310,7 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
 
   /** Focuses the first tab. */
   private _focusFirstTab(): void {
-    for (let i = 0; i < this._labelWrappers.length; i++) {
+    for (let i = 0; i < this.labels.length; i++) {
       if (this._isValidIndex(i)) {
         this.focusIndex = i;
         break;
@@ -316,7 +320,7 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
 
   /** Focuses the last tab. */
   private _focusLastTab(): void {
-    for (let i = this._labelWrappers.length - 1; i > -1; i--) {
+    for (let i = this.labels.length - 1; i > -1; i--) {
       if (this._isValidIndex(i)) {
         this.focusIndex = i;
         break;
@@ -370,7 +374,7 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
    * should be called sparingly.
    */
   _scrollToLabel(labelIndex: number) {
-    const selectedLabel = this._labelWrappers ? this._labelWrappers.toArray()[labelIndex] : null;
+    const selectedLabel = this.labels ? this.labels.toArray()[labelIndex] : null;
 
     if (!selectedLabel) { return; }
 
@@ -452,10 +456,12 @@ export class MatTabHeader extends _MatTabHeaderMixinBase
 
   /** Tells the ink-bar to align itself to the current label wrapper */
   private _alignInkBarToSelectedTab(): void {
-    const selectedLabelWrapper = this._labelWrappers && this._labelWrappers.length ?
-        this._labelWrappers.toArray()[this.selectedIndex].elementRef.nativeElement :
-        null;
+    if (!this.labels || !this.labels.length) { return; }
 
-    this._inkBar.alignToElement(selectedLabelWrapper);
+    const selectedLabelWrapper = this.labels.toArray()[this.selectedIndex];
+    if (selectedLabelWrapper) {
+      let selectedLabelWrapperElement = selectedLabelWrapper.elementRef.nativeElement;
+      this._inkBar.alignToElement(selectedLabelWrapperElement);
+    }
   }
 }

@@ -19,7 +19,7 @@ import {
   OnDestroy,
   Output,
   QueryList,
-  ViewChild,
+  ViewChild, ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 import {coerceBooleanProperty, coerceNumberProperty} from '@angular/cdk/coercion';
@@ -34,6 +34,7 @@ import {
   mixinDisableRipple,
   ThemePalette
 } from '@angular/material/core';
+import {MatTabLabelWrapper} from './tab-label-wrapper';
 
 
 /** Used to generate unique ID's for each tab component */
@@ -82,6 +83,7 @@ export class MatTabGroup extends _MatTabGroupMixinBase implements AfterContentIn
     AfterContentChecked, OnDestroy, CanColor, CanDisableRipple {
 
   @ContentChildren(MatTab) _tabs: QueryList<MatTab>;
+  @ViewChildren(MatTabLabelWrapper) _wrappers: QueryList<MatTabLabelWrapper>;
 
   @ViewChild('tabBodyWrapper') _tabBodyWrapper: ElementRef;
 
