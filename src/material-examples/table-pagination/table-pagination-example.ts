@@ -3,6 +3,7 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
 
 /**
  * @title Table with pagination
+ * @category mat-table
  */
 @Component({
   selector: 'table-pagination-example',

@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 
 /**
  * @title Basic use of `<cdk-table>` (uses display flex)
+ * @category cdk-table
  */
 @Component({
   selector: 'cdk-table-basic-flex-example',

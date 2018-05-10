@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 
 /**
  * @title Basic use of `<mat-table>` (uses display flex)
+ * @category mat-table
  */
 @Component({
   selector: 'table-basic-flex-example',

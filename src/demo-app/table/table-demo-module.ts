@@ -26,6 +26,7 @@ import {SimpleColumn} from './custom-table/simple-column';
 import {DataInputTableDemo} from './data-input-table/data-input-table';
 import {WhenRowsDemo} from './when-rows/when-rows';
 import {MaterialExampleModule} from '../example/example-module';
+import {ExpandableRowsDemo} from './expandable-rows/expandable-rows';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import {MaterialExampleModule} from '../example/example-module';
   declarations: [
     CustomTableDemo,
     DataInputTableDemo,
+    ExpandableRowsDemo,
     TableDemo,
     WrapperTable,
     SimpleColumn,

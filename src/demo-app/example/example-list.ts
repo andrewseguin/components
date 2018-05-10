@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, SimpleChanges} from '@angular/core';
 import {EXAMPLE_COMPONENTS} from '@angular/material-examples';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 
@@ -56,12 +56,22 @@ export class ExampleList {
   @Input() type: string;
 
   /** IDs of the examples to display. */
-  @Input() ids: string[];
+  @Input() ids: string[] = [];
+
+  @Input() category: string;
 
   @Input()
   set expandAll(v: boolean) { this._expandAll = coerceBooleanProperty(v); }
   get expandAll(): boolean { return this._expandAll; }
   _expandAll: boolean;
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Append any matching category examples to the IDs.
+    if (changes['category']) {
+      this.ids = this.ids.concat(Object.keys(EXAMPLE_COMPONENTS)
+          .filter(id => EXAMPLE_COMPONENTS[id].category === this.category));
+    }
+  }
 
   exampleComponents = EXAMPLE_COMPONENTS;
 }

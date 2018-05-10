@@ -3,6 +3,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
+ * @category mat-table
  */
 @Component({
   selector: 'table-overview-example',

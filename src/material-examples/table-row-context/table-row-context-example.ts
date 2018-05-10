@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 
 /**
  * @title Table showing each row context properties.
+ * @category mat-table
  */
 @Component({
   selector: 'table-row-context-example',

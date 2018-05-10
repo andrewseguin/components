@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 
 /**
  * @title Native `<table>` that only applies the Material styles
+ * @category mat-table
  */
 @Component({
   selector: 'table-native-only-example',

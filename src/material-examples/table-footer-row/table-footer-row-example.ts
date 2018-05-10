@@ -7,6 +7,7 @@ export interface Transaction {
 
 /**
  * @title Footer row table
+ * @category mat-table
  */
 @Component({
   selector: 'table-footer-row-example',

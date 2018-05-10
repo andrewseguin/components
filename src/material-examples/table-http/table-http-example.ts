@@ -6,6 +6,7 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 
 /**
  * @title Table retrieving data through HTTP
+ * @category mat-table
  */
 @Component({
   selector: 'table-http-example',

@@ -4,6 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 
 /**
  * @title Table with selection
+ * @category mat-table
  */
 @Component({
   selector: 'table-selection-example',

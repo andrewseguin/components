@@ -3,6 +3,7 @@ import {MatTableDataSource, MatSort} from '@angular/material';
 
 /**
  * @title Table with sorting
+ * @category mat-table
  */
 @Component({
   selector: 'table-sorting-example',

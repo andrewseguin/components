@@ -7,13 +7,13 @@
  */
 
 import {Component, ViewChild} from '@angular/core';
-import {PeriodicElement, ELEMENT_DATA} from 'table/element-data';
+import {PeriodicElement, ELEMENT_DATA} from '../element-data';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
   moduleId: module.id,
-  selector: 'expandable-rows',
+  selector: 'expandable-rows-demo',
   templateUrl: 'expandable-rows.html',
   animations: [
     trigger('detailExpand', [

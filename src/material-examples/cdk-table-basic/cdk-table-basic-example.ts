@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 
 /**
  * @title Basic CDK data-table
+ * @category cdk-table
  */
 @Component({
   selector: 'cdk-table-basic-example',

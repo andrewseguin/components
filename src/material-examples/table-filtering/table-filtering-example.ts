@@ -3,6 +3,7 @@ import {MatTableDataSource} from '@angular/material';
 
 /**
  * @title Table with filtering
+ * @category mat-table
  */
 @Component({
   selector: 'table-filtering-example',

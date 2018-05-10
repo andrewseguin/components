@@ -8,26 +8,8 @@
 
 import {Component} from '@angular/core';
 
-
 @Component({
   moduleId: module.id,
   templateUrl: 'table-demo.html',
 })
-export class TableDemo {
-  examples = [
-    'table-basic',
-    'table-basic-flex',
-    'cdk-table-basic',
-    'cdk-table-basic-flex',
-    'table-dynamic-columns',
-    'table-filtering',
-    'table-footer-row',
-    'table-http',
-    'table-native-only',
-    'table-overview',
-    'table-pagination',
-    'table-row-context',
-    'table-selection',
-    'table-sorting',
-  ];
-}
+export class TableDemo { }

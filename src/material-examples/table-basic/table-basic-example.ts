@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 
 /**
  * @title Basic use of `<table mat-table>`
+ * @category mat-table
  */
 @Component({
   selector: 'table-basic-example',

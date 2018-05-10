@@ -12,6 +12,7 @@ interface ExampleMetadata {
   sourcePath: string;
   id: string;
   title: string;
+  category: string;
   additionalComponents: string[];
   additionalFiles: string[];
   selectorName: string[];
@@ -21,6 +22,7 @@ interface ParsedMetadata {
   primary: boolean;
   component: string;
   title: string;
+  category: string;
   templateUrl: string;
 }
 
@@ -69,6 +71,10 @@ function buildExamplesTemplate(metadata: ExampleMetadata): string {
     fields.push(`selectorName: '${metadata.selectorName.join(', ')}'`);
   }
 
+  if (metadata.category) {
+    fields.push(`category: '${metadata.category}'`);
+  }
+
   const data = '\n' + fields.map(field => '    ' + field).join(',\n');
 
   return `'${metadata.id}': {${data}
@@ -101,6 +107,7 @@ ${extractedMetadata.map(r => buildImportsTemplate(r)).join('').trim()}
 export interface LiveExample {
   title: string;
   component: any;
+  category?: string;
   additionalFiles?: string[];
   selectorName?: string;
 }
@@ -162,6 +169,10 @@ function parseExampleMetadata(fileName: string, sourceContent: string): ParsedMe
                 meta.title = tagValue;
                 meta.primary = true;
               }
+
+              if (tagName === 'category') {
+                meta.category = tagValue;
+              }
             }
           }
         }
@@ -216,6 +227,7 @@ task('build-examples-module', () => {
         id,
         component: primaryComponent.component,
         title: primaryComponent.title,
+        category: primaryComponent.category,
         additionalComponents: [],
         additionalFiles: [],
         selectorName: []

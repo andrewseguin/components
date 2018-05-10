@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 
 /**
  * @title Table dynamically changing the columns displayed
+ * @category mat-table
  */
 @Component({
   selector: 'table-dynamic-columns-example',
