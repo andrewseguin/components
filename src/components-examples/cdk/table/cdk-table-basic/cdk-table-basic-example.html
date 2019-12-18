@@ -25,4 +25,8 @@
 
   <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
   <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+
+  <thead cdk-table-section class="custom-head"></thead>
+  <tbody cdk-table-section class="custom-body"></tbody>
+  <tfoot cdk-table-section class="custom-foot"></tfoot>
 </table>

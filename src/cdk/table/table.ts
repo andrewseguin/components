@@ -17,6 +17,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   ContentChildren,
   Directive,
   ElementRef,
@@ -47,7 +48,8 @@ import {
   CdkCellOutletRowContext,
   CdkFooterRowDef,
   CdkHeaderRowDef,
-  CdkRowDef
+  CdkRowDef,
+  CdkTableBodySection, CdkTableFootSection, CdkTableHeadSection
 } from './row';
 import {StickyStyler} from './sticky-styler';
 import {
@@ -108,8 +110,14 @@ export const CDK_TABLE_TEMPLATE =
     // element in the table. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption
     `
   <ng-content select="caption"></ng-content>
+
+  <ng-content select="thead[cdk-table-section]"></ng-content>
   <ng-container headerRowOutlet></ng-container>
+
+  <ng-content select="tbody[cdk-table-section]"></ng-content>
   <ng-container rowOutlet></ng-container>
+
+  <ng-content select="tfoot[cdk-table-section]"></ng-content>
   <ng-container footerRowOutlet></ng-container>
 `;
 
@@ -376,6 +384,15 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
    */
   @ContentChildren(CdkColumnDef, {descendants: true}) _contentColumnDefs: QueryList<CdkColumnDef>;
 
+  /** Optional thead section */
+  @ContentChild(CdkTableHeadSection, {static: true}) _headContentSection: CdkTableHeadSection;
+
+  /** Optional tbody section */
+  @ContentChild(CdkTableBodySection, {static: true}) _bodyContentSection: CdkTableBodySection;
+
+  /** Optional tfoot section */
+  @ContentChild(CdkTableFootSection, {static: true}) _footContentSection: CdkTableFootSection;
+
   /** Set of data row definitions that were provided to the table as content children. */
   @ContentChildren(CdkRowDef, {descendants: true}) _contentRowDefs: QueryList<CdkRowDef<T>>;
 
@@ -394,7 +411,8 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
       protected readonly _changeDetectorRef: ChangeDetectorRef,
       protected readonly _elementRef: ElementRef, @Attribute('role') role: string,
       @Optional() protected readonly _dir: Directionality, @Inject(DOCUMENT) _document: any,
-      private _platform: Platform) {
+      private _platform: Platform,
+      private _viewContainer: ViewContainerRef) {
     if (!role) {
       this._elementRef.nativeElement.setAttribute('role', 'grid');
     }
@@ -1005,13 +1023,14 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
   private _applyNativeTableSections() {
     const documentFragment = this._document.createDocumentFragment();
     const sections = [
-      {tag: 'thead', outlet: this._headerRowOutlet},
-      {tag: 'tbody', outlet: this._rowOutlet},
-      {tag: 'tfoot', outlet: this._footerRowOutlet},
+      {tag: 'thead', outlet: this._headerRowOutlet, contentSection: this._headContentSection},
+      {tag: 'tbody', outlet: this._rowOutlet, contentSection: this._bodyContentSection},
+      {tag: 'tfoot', outlet: this._footerRowOutlet, contentSection: this._footContentSection},
     ];
-
     for (const section of sections) {
-      const element = this._document.createElement(section.tag);
+      const element = section.contentSection ?
+          section.contentSection.elementRef.nativeElement :
+          this._document.createElement(section.tag);
       element.setAttribute('role', 'rowgroup');
       element.appendChild(section.outlet.elementRef.nativeElement);
       documentFragment.appendChild(element);

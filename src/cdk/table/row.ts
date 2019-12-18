@@ -10,7 +10,7 @@ import {BooleanInput} from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
+  Directive, ElementRef,
   IterableChanges,
   IterableDiffer,
   IterableDiffers,
@@ -293,4 +293,40 @@ export class CdkFooterRow {
   encapsulation: ViewEncapsulation.None,
 })
 export class CdkRow {
+}
+
+/** Body section */
+@Directive({
+  selector: 'thead[cdk-table-section]',
+  host: {
+    'class': 'cdk-table-head',
+    'role': 'row',
+  },
+})
+export class CdkTableHeadSection {
+  constructor(public viewContainer: ViewContainerRef, public elementRef: ElementRef) {}
+}
+
+/** Body section */
+@Directive({
+  selector: 'tbody[cdk-table-section]',
+  host: {
+    'class': 'cdk-table-body',
+    'role': 'row',
+  },
+})
+export class CdkTableBodySection {
+  constructor(public viewContainer: ViewContainerRef, public elementRef: ElementRef) {}
+}
+
+/** Body section */
+@Directive({
+  selector: 'tfoot[cdk-table-section]',
+  host: {
+    'class': 'cdk-table-foot',
+    'role': 'row',
+  },
+})
+export class CdkTableFootSection {
+  constructor(public viewContainer: ViewContainerRef, public elementRef: ElementRef) {}
 }

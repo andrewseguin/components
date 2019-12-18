@@ -8,14 +8,27 @@
 
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {HeaderRowOutlet, DataRowOutlet, CdkTable, FooterRowOutlet} from './table';
+import {CdkTable, DataRowOutlet, FooterRowOutlet, HeaderRowOutlet} from './table';
 import {
-  CdkCellOutlet, CdkFooterRow, CdkFooterRowDef, CdkHeaderRow, CdkHeaderRowDef, CdkRow,
-  CdkRowDef
+  CdkCellOutlet,
+  CdkFooterRow,
+  CdkFooterRowDef,
+  CdkHeaderRow,
+  CdkHeaderRowDef,
+  CdkRow,
+  CdkRowDef,
+  CdkTableBodySection,
+  CdkTableFootSection,
+  CdkTableHeadSection
 } from './row';
 import {
-  CdkColumnDef, CdkHeaderCellDef, CdkHeaderCell, CdkCell, CdkCellDef,
-  CdkFooterCellDef, CdkFooterCell
+  CdkCell,
+  CdkCellDef,
+  CdkColumnDef,
+  CdkFooterCell,
+  CdkFooterCellDef,
+  CdkHeaderCell,
+  CdkHeaderCellDef
 } from './cell';
 import {CdkTextColumn} from './text-column';
 
@@ -39,6 +52,9 @@ const EXPORTED_DECLARATIONS = [
   HeaderRowOutlet,
   FooterRowOutlet,
   CdkTextColumn,
+  CdkTableBodySection,
+  CdkTableHeadSection,
+  CdkTableFootSection
 ];
 
 @NgModule({
