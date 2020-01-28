@@ -8,12 +8,23 @@
 
 import {NgModule} from '@angular/core';
 import {MatCommonModule} from '@angular/material/core';
-import {MatSnackbar} from './snackbar';
+import {MatSimpleSnackBar} from './simple-snackbar';
+import {MatSnackBarContainer} from './snack-bar-container';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {PortalModule} from '@angular/cdk/portal';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
-  imports: [MatCommonModule],
-  exports: [MatSnackbar, MatCommonModule],
-  declarations: [MatSnackbar],
+  imports: [
+    OverlayModule,
+    PortalModule,
+    CommonModule,
+    MatButtonModule,
+    MatCommonModule,
+  ],
+  exports: [MatCommonModule, MatSnackBarContainer],
+  declarations: [MatSimpleSnackBar, MatSnackBarContainer],
+  entryComponents: [MatSimpleSnackBar, MatSnackBarContainer],
 })
-export class MatSnackbarModule {
-}
+export class MatSnackBarModule {}

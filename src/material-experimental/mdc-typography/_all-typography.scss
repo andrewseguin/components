@@ -7,6 +7,7 @@
 @import '../mdc-radio/mdc-radio';
 @import '../mdc-slide-toggle/mdc-slide-toggle';
 @import '../mdc-slider/mdc-slider';
+@import '../mdc-snackbar/mdc-snackbar';
 @import '../mdc-tabs/mdc-tabs';
 @import '../mdc-table/mdc-table';
 @import '../mdc-progress-bar/mdc-progress-bar';
@@ -29,6 +30,7 @@
   @include mat-radio-typography-mdc($config);
   @include mat-slide-toggle-typography-mdc($config);
   @include mat-slider-typography-mdc($config);
+  @include mat-snackbar-typography-mdc($config);
   @include mat-tabs-typography-mdc($config);
   @include mat-table-typography-mdc($config);
   @include mat-progress-bar-typography-mdc($config);

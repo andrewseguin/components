@@ -1,0 +1,9 @@
+<div class="mdc-snackbar__label"
+     role="status"
+     aria-live="polite">
+  {{data.message}}
+</div>
+
+<div class="mdc-snackbar__actions" *ngIf="hasAction">
+  <button mat-button class="mdc-snackbar__action" (click)="action()">{{data.action}}</button>
+</div>

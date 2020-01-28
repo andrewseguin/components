@@ -8,10 +8,14 @@ ng_module(
         ["**/*.ts"],
         exclude = ["**/*.spec.ts"],
     ),
-    assets = [":snackbar_scss"] + glob(["**/*.html"]),
+    assets = [
+        ":simple-snackbar_scss",
+        ":snack_bar_container_scss",
+    ] + glob(["**/*.html"]),
     module_name = "@angular/material-experimental/mdc-snackbar",
     deps = [
         "//src/material/core",
+        "//src/material/snack-bar",
         "@npm//@angular/core",
         "@npm//material-components-web",
     ],
@@ -27,6 +31,18 @@ sass_library(
 )
 
 sass_binary(
-    name = "snackbar_scss",
-    src = "snackbar.scss",
+    name = "simple-snackbar_scss",
+    src = "simple-snackbar.scss",
+)
+
+sass_binary(
+    name = "snack_bar_container_scss",
+    src = "snack-bar-container.scss",
+    include_paths = [
+        "external/npm/node_modules",
+    ],
+    deps = [
+        "//src/material-experimental/mdc-helpers:mdc_helpers_scss_lib",
+        "//src/material-experimental/mdc-helpers:mdc_scss_deps_lib",
+    ],
 )

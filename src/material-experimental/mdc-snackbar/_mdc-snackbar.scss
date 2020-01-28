@@ -1,5 +1,14 @@
+@import '../mdc-helpers/mdc-helpers';
+@import '@material/snackbar/mixins.import';
+
 @mixin mat-snackbar-theme-mdc($theme) {
+  @include mat-using-mdc-theme($theme) {
+    @include mdc-snackbar-core-styles($query: $mat-theme-styles-query);
+  }
 }
 
 @mixin mat-snackbar-typography-mdc($config) {
+  @include mat-using-mdc-typography($config) {
+    @include mdc-snackbar-core-styles($query: $mat-typography-styles-query);
+  }
 }

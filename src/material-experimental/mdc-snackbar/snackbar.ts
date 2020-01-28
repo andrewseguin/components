@@ -1,20 +1,14 @@
+import {Injectable} from '@angular/core';
+import {MatSnackBar as BaseMatSnackBar} from '@angular/material/snack-bar';
+import {MatSnackBarModule} from './module';
+import {MatSimpleSnackBar} from './simple-snackbar';
+import {MatSnackBarContainer} from './snack-bar-container';
+
 /**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * Service to dispatch Material Design snack bar messages.
  */
-
-import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
-
-@Component({
-  selector: 'mat-snackbar',
-  templateUrl: 'snackbar.html',
-  styleUrls: ['snackbar.css'],
-  exportAs: 'matSnackbar',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class MatSnackbar {
+@Injectable({providedIn: MatSnackBarModule})
+export class MatSnackBar extends BaseMatSnackBar {
+  protected simpleSnackBarComponent = MatSimpleSnackBar;
+  protected snackBarContainerComponent = MatSnackBarContainer;
 }

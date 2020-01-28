@@ -7,13 +7,27 @@
  */
 
 import {NgModule} from '@angular/core';
-import {MatSnackbarModule} from '@angular/material-experimental/mdc-snackbar';
+import {MatSnackBarModule} from '@angular/material-experimental/mdc-snackbar';
 import {RouterModule} from '@angular/router';
 import {MdcSnackbarDemo} from './mdc-snackbar-demo';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   imports: [
-    MatSnackbarModule,
+    MatSnackBarModule,
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
     RouterModule.forChild([{path: '', component: MdcSnackbarDemo}]),
   ],
   declarations: [MdcSnackbarDemo],
