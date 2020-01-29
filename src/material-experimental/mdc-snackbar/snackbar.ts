@@ -11,4 +11,5 @@ import {MatSnackBarContainer} from './snack-bar-container';
 export class MatSnackBar extends BaseMatSnackBar {
   protected simpleSnackBarComponent = MatSimpleSnackBar;
   protected snackBarContainerComponent = MatSnackBarContainer;
+  protected handsetCssClass = 'mat-mdc-snack-bar-handset';
 }
