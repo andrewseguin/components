@@ -11,9 +11,9 @@ import {MAT_SNACK_BAR_DATA, MatSnackBarRef, SimpleSnackBar} from '@angular/mater
 
 @Component({
   selector: 'mat-simple-snack-bar',
-  templateUrl: 'simple-snackbar.html',
-  styleUrls: ['simple-snackbar.css'],
-  exportAs: 'matSnackbar',
+  templateUrl: 'simple-snack-bar.html',
+  styleUrls: ['simple-snack-bar.css'],
+  exportAs: 'matSnackBar',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

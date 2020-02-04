@@ -3,16 +3,16 @@ package(default_visibility = ["//visibility:public"])
 load("//tools:defaults.bzl", "ng_module", "sass_binary", "sass_library")
 
 ng_module(
-    name = "mdc-snackbar",
+    name = "mdc-snack-bar",
     srcs = glob(
         ["**/*.ts"],
         exclude = ["**/*.spec.ts"],
     ),
     assets = [
-        ":simple-snackbar_scss",
+        ":simple_snack_bar_scss",
         ":snack_bar_container_scss",
     ] + glob(["**/*.html"]),
-    module_name = "@angular/material-experimental/mdc-snackbar",
+    module_name = "@angular/material-experimental/mdc-snack-bar",
     deps = [
         "//src/material/core",
         "//src/material/snack-bar",
@@ -22,7 +22,7 @@ ng_module(
 )
 
 sass_library(
-    name = "mdc_snackbar_scss_lib",
+    name = "mdc_snack_bar_scss_lib",
     srcs = glob(["**/_*.scss"]),
     deps = [
         "//src/material-experimental/mdc-helpers:mdc_helpers_scss_lib",
@@ -31,8 +31,8 @@ sass_library(
 )
 
 sass_binary(
-    name = "simple-snackbar_scss",
-    src = "simple-snackbar.scss",
+    name = "simple_snack_bar_scss",
+    src = "simple-snack-bar.scss",
 )
 
 sass_binary(

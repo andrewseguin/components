@@ -7,9 +7,9 @@
  */
 
 import {NgModule} from '@angular/core';
-import {MatSnackBarModule} from '@angular/material-experimental/mdc-snackbar';
+import {MatSnackBarModule} from '@angular/material-experimental/mdc-snack-bar';
 import {RouterModule} from '@angular/router';
-import {MdcSnackbarDemo} from './mdc-snackbar-demo';
+import {MdcSnackBarDemo} from './mdc-snack-bar-demo';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
@@ -28,9 +28,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    RouterModule.forChild([{path: '', component: MdcSnackbarDemo}]),
+    RouterModule.forChild([{path: '', component: MdcSnackBarDemo}]),
   ],
-  declarations: [MdcSnackbarDemo],
+  declarations: [MdcSnackBarDemo],
 })
-export class MdcSnackbarDemoModule {
+export class MdcSnackBarDemoModule {
 }

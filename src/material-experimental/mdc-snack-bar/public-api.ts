@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-export * from './simple-snackbar';
+export * from './simple-snack-bar';
 export * from './snack-bar-container';
-export * from './snackbar';
+export * from './snack-bar';
 export * from './module';

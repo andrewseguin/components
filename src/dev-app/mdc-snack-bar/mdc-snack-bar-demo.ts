@@ -7,7 +7,7 @@
  */
 
 import {Component, TemplateRef, ViewChild} from '@angular/core';
-import {MatSnackBar} from '@angular/material-experimental/mdc-snackbar';
+import {MatSnackBar} from '@angular/material-experimental/mdc-snack-bar';
 import {Directionality} from '@angular/cdk/bidi';
 import {
   MatSnackBarConfig,
@@ -16,11 +16,11 @@ import {
 } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'mdc-snackbar-demo',
-  templateUrl: 'mdc-snackbar-demo.html',
-  styleUrls: ['mdc-snackbar-demo.css'],
+  selector: 'mdc-snack-bar-demo',
+  templateUrl: 'mdc-snack-bar-demo.html',
+  styleUrls: ['mdc-snack-bar-demo.css'],
 })
-export class MdcSnackbarDemo {
+export class MdcSnackBarDemo {
 
   @ViewChild('template') template: TemplateRef<any>;
   message = 'Snack Bar opened.';

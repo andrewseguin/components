@@ -1,0 +1,9 @@
+<div role="status" aria-live="polite">
+  {{data.message}}
+</div>
+
+<div *ngIf="hasAction">
+  <button mat-button (click)="action()">{{data.action}}</button>
+</div>
+
+<test></test>

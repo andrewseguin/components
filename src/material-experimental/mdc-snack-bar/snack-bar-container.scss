@@ -10,10 +10,15 @@
   position: initial;
 }
 
+// In handset mode, the handset container and snack bar container both need to have full width.
 .mat-mdc-snack-bar-handset {
-  width: 100%;
-
+  flex: 1;
   .mat-mdc-snack-bar-container {
-    width: 100%;
+    flex: 1;
   }
+}
+
+// The wrapper needs to expand to fill the width of the container.
+.mat-snack-bar-container-wrapper {
+  flex: 1;
 }

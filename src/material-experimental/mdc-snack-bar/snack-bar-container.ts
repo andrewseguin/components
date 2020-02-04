@@ -7,16 +7,15 @@
  */
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, ComponentRef,
-  ElementRef, EmbeddedViewRef,
-  NgZone, ViewChild,
+  ChangeDetectionStrategy,
+  Component,
+  ComponentRef,
+  ElementRef,
+  EmbeddedViewRef,
+  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {
-  matSnackBarAnimations, MatSnackBarConfig,
-  MatSnackBarContainer as BaseMatSnackBarContainer, MatSnackBarContainerInterface
-} from '@angular/material/snack-bar';
+import {MatSnackBarConfig, MatSnackBarContainerInterface} from '@angular/material/snack-bar';
 import {MDCSnackbarAdapter, MDCSnackbarFoundation} from '@material/snackbar';
 import {
   BasePortalOutlet,
@@ -25,6 +24,8 @@ import {
   TemplatePortal
 } from '@angular/cdk/portal';
 import {Subject} from 'rxjs';
+
+const MDC_LABEL_CSS_CLASS = 'mdc-snackbar__label';
 
 /**
  * Internal component that wraps user-provided snack bar content.
@@ -47,7 +48,8 @@ import {Subject} from 'rxjs';
     '[class.mat-snack-bar-container]': 'false',
   }
 })
-export class MatSnackBarContainer extends BasePortalOutlet implements MatSnackBarContainerInterface {
+export class MatSnackBarContainer extends BasePortalOutlet
+    implements MatSnackBarContainerInterface {
   /** Subject for notifying that the snack bar has exited from view. */
   readonly _onExit: Subject<any> = new Subject();
 
@@ -69,6 +71,9 @@ export class MatSnackBarContainer extends BasePortalOutlet implements MatSnackBa
   /** The portal outlet inside of this container into which the snack bar content will be loaded. */
   @ViewChild(CdkPortalOutlet, {static: true}) _portalOutlet: CdkPortalOutlet;
 
+  /** Element that acts as the MDC surface container which should contain the label and actions. */
+  @ViewChild('surface', {static: true}) _surface: ElementRef;
+
   constructor(
       private _elementRef: ElementRef<HTMLElement>,
       public snackBarConfig: MatSnackBarConfig) {
@@ -77,6 +82,9 @@ export class MatSnackBarContainer extends BasePortalOutlet implements MatSnackBa
 
   enter() {
     this._mdcFoundation.open();
+    if (!this._surface.nativeElement.querySelector(`.${MDC_LABEL_CSS_CLASS}`)) {
+      this._appendLabelWrapper();
+    }
   }
 
   exit() {
@@ -106,5 +114,22 @@ export class MatSnackBarContainer extends BasePortalOutlet implements MatSnackBa
     if (this._portalOutlet.hasAttached()) {
       throw Error('Attempting to attach snack bar content after content is already attached');
     }
+  }
+
+  /** Wraps the surface container content in an additional label container. */
+  private _appendLabelWrapper() {
+
+    // Create the label wrapper container and add its CSS class.
+    const labelWrapper = document.createElement('div');
+    labelWrapper.classList.add(MDC_LABEL_CSS_CLASS);
+
+    // Move the user's content in the surface container to the new label container.
+    const surfaceEl = this._surface.nativeElement;
+    while (surfaceEl.firstChild) {
+      labelWrapper.appendChild(surfaceEl.firstChild);
+    }
+
+    // Insert the label wrapper under the surface container.
+    surfaceEl.appendChild(labelWrapper);
   }
 }

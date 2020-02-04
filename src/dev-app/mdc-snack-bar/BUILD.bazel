@@ -4,15 +4,15 @@ load("@io_bazel_rules_sass//:defs.bzl", "sass_binary")
 load("//tools:defaults.bzl", "ng_module")
 
 ng_module(
-    name = "mdc-snackbar",
+    name = "mdc-snack-bar",
     srcs = glob(["**/*.ts"]),
     assets = [
-        "mdc-snackbar-demo.html",
-        ":mdc_snackbar_demo_scss",
+        "mdc-snack-bar-demo.html",
+        ":mdc_snack_bar_demo_scss",
     ],
     deps = [
         "//src/cdk/bidi",
-        "//src/material-experimental/mdc-snackbar",
+        "//src/material-experimental/mdc-snack-bar",
         "//src/material/button",
         "//src/material/checkbox",
         "//src/material/form-field",
@@ -24,6 +24,6 @@ ng_module(
 )
 
 sass_binary(
-    name = "mdc_snackbar_demo_scss",
-    src = "mdc-snackbar-demo.scss",
+    name = "mdc_snack_bar_demo_scss",
+    src = "mdc-snack-bar-demo.scss",
 )

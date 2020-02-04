@@ -1,0 +1,6 @@
+// The component's host element needs to expand the full width of the container, and the children
+// expect it's parent to be display flex.
+.mat-mdc-simple-snack-bar {
+  display: flex;
+  flex: 1;
+}

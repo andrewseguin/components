@@ -52,4 +52,7 @@ export class MatSnackBarConfig<D = any> {
 
   /** The vertical position to place the snack bar. */
   verticalPosition?: MatSnackBarVerticalPosition = 'bottom';
+
+  /** Whether the provided component or templateRef uses the MDC HTML structure. */
+  usesMdcStructure?: boolean;
 }
