@@ -95,6 +95,7 @@ export const DEV_APP_ROUTES: Routes = [
   },
   {path: 'radio', loadChildren: 'radio/radio-demo-module#RadioDemoModule'},
   {path: 'ripple', loadChildren: 'ripple/ripple-demo-module#RippleDemoModule'},
+  {path: 'schematics', loadChildren: 'schematics/schematics-demo-module#SchematicsDemoModule'},
   {path: 'select', loadChildren: 'select/select-demo-module#SelectDemoModule'},
   {path: 'sidenav', loadChildren: 'sidenav/sidenav-demo-module#SidenavDemoModule'},
   {

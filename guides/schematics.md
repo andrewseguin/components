@@ -66,6 +66,8 @@ started with a Material Design form group consisting of:
 ng generate @angular/material:address-form <component-name>
 ```
 
+<!-- example(schematics-address-form) -->
+
 #### Navigation schematic
 The `navigation` schematic will create a new component that includes
 a toolbar with the app name and a responsive side nav based on Material
@@ -75,6 +77,8 @@ breakpoints.
 ng generate @angular/material:navigation <component-name>
 ```
 
+<!-- example(schematics-navigation) -->
+
 #### Table schematic
 The table schematic will create a component that renders an Angular Material `<table>` which has
 been pre-configured with a datasource for sorting and pagination.
@@ -82,6 +86,8 @@ been pre-configured with a datasource for sorting and pagination.
 ```
 ng generate @angular/material:table <component-name>
 ```
+
+<!-- example(schematics-table) -->
 
 #### Dashboard schematic
 The `dashboard` schematic will create a new component that contains
@@ -91,6 +97,8 @@ a dynamic grid list of Material Design cards.
 ng generate @angular/material:dashboard <component-name>
 ```
 
+<!-- example(schematics-dashboard) -->
+
 #### Tree schematic
 The `tree` schematic can be used to quickly generate an Angular component that uses the Angular
 Material `<mat-tree>` component to visualize a nested folder structure.
@@ -99,6 +107,8 @@ Material `<mat-tree>` component to visualize a nested folder structure.
 ng generate @angular/material:tree <component-name>
 ```
 
+<!-- example(schematics-tree) -->
+
 #### Drag and Drop schematic
 The `drag-drop` schematic is provided by the `@angular/cdk` and can be used to generate a component
 that uses the CDK drag and drop directives.
@@ -106,3 +116,5 @@ that uses the CDK drag and drop directives.
 ```
 ng generate @angular/cdk:drag-drop <component-name>
 ```
+
+<!-- example(schematics-drag-drop) -->

@@ -78,8 +78,8 @@ var packagesConfig = {
 // public entry-points, but they are imported in source files as if they were. In order
 // to ensure that the directory imports properly resolve to the "index.js" files within
 // SystemJS, we configure them similar to actual package entry-points.
-CDK_PACKAGES.push('testing/private', 'testing/testbed/fake-events');
-MATERIAL_PACKAGES.push('testing');
+CDK_PACKAGES.push('testing/private', 'testing/testbed/fake-events', 'schematics');
+MATERIAL_PACKAGES.push('testing', 'schematics');
 
 // Configure framework packages.
 setupFrameworkPackages();

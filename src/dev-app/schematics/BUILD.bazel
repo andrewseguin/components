@@ -1,0 +1,15 @@
+package(default_visibility = ["//visibility:public"])
+
+load("//tools:defaults.bzl", "ng_module")
+
+ng_module(
+    name = "schematics",
+    srcs = glob(["**/*.ts"]),
+    assets = ["schematics-demo.html"],
+    deps = [
+        "//src/components-examples/cdk/schematics",
+        "//src/components-examples/material/schematics",
+        "//src/dev-app/example",
+        "@npm//@angular/router",
+    ],
+)

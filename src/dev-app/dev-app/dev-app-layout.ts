@@ -54,6 +54,7 @@ export class DevAppLayout {
     {name: 'Progress Spinner', route: '/progress-spinner'},
     {name: 'Radio', route: '/radio'},
     {name: 'Ripple', route: '/ripple'},
+    {name: 'Schematics', route: '/schematics'},
     {name: 'Screen Type', route: '/screen-type'},
     {name: 'Select', route: '/select'},
     {name: 'Sidenav', route: '/sidenav'},

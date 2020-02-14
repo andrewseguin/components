@@ -64,6 +64,7 @@ ng_module(
         "//src/dev-app/progress-spinner",
         "//src/dev-app/radio",
         "//src/dev-app/ripple",
+        "//src/dev-app/schematics",
         "//src/dev-app/screen-type",
         "//src/dev-app/select",
         "//src/dev-app/sidenav",
