@@ -301,13 +301,16 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
   private _stickyStyler: StickyStyler;
 
   /**
-   * CSS class added to any row or cell that has sticky positioning applied. May be overriden by
+   * CSS class added to any row or cell that has sticky positioning applied. May be overridden by
    * table subclasses.
    */
   protected stickyCssClass: string = 'cdk-table-sticky';
 
   /** Whether the no data row is currently showing anything. */
   private _isShowingNoDataRow = false;
+
+  /** Whether the sticky column styles need to be updated during the next view check lifecycle. */
+  private scheduleUpdateStickyColumnStyles = false;
 
   /**
    * Tracking function that will be used to check the differences in data changes. Used similarly
@@ -482,6 +485,13 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
     this._checkStickyStates();
   }
 
+  ngAfterViewChecked() {
+    if (this.scheduleUpdateStickyColumnStyles) {
+      this.updateStickyColumnStyles();
+      this.scheduleUpdateStickyColumnStyles = false;
+    }
+  }
+
   ngOnDestroy() {
     this._rowOutlet.viewContainer.clear();
     this._noDataRowOutlet.viewContainer.clear();
@@ -541,7 +551,7 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
     });
 
     this._updateNoDataRow();
-    this.updateStickyColumnStyles();
+    this.scheduleUpdateStickyColumnStyles = true;
   }
 
   /** Adds a column definition that was not included as part of the content children. */
