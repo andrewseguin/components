@@ -9,10 +9,8 @@
 
 // Prefix used for component token fallback variables, e.g.
 // `color: var(--mdc-text-button-label-text-color, var(--mat-sys-primary));`
-$_system-fallback-prefix: mat-sys;
-
 // Default system level prefix to use when directly calling the `system-level-*` mixins
-$_system-level-prefix: sys;
+$_system-level-prefix: mat-sys;
 
 /// Emits necessary CSS variables for Material's system level values for the values defined in the
 /// config map. The config map can have values color, typography, and/or density.
@@ -47,8 +45,8 @@ $_system-level-prefix: sys;
     $color-config: if(meta.type-of($color) == 'map',
       definition.define-colors($color),
       definition.define-colors((primary: $color)));
-    @include system-level-colors($color-config, $overrides, $_system-fallback-prefix);
-    @include system-level-elevation($color-config, $overrides, $_system-fallback-prefix);
+    @include system-level-colors($color-config, $overrides, $_system-level-prefix);
+    @include system-level-elevation($color-config, $overrides, $_system-level-prefix);
   }
 
   $typography: map.get($config, typography);
@@ -57,7 +55,7 @@ $_system-level-prefix: sys;
     $typography-config: if(meta.type-of($typography) == 'map',
       definition.define-typography($typography),
       definition.define-typography((plain-family: $typography)));
-    @include system-level-typography($typography-config, $overrides, $_system-fallback-prefix);
+    @include system-level-typography($typography-config, $overrides, $_system-level-prefix);
   }
 
   $density: map.get($config, density);
@@ -79,14 +77,14 @@ $_system-level-prefix: sys;
     }
   }
 
-  @include system-level-shape($overrides: $overrides, $prefix: $_system-fallback-prefix);
-  @include system-level-motion($overrides:$overrides, $prefix: $_system-fallback-prefix);
-  @include system-level-state($overrides: $overrides, $prefix: $_system-fallback-prefix);
+  @include system-level-shape($overrides: $overrides, $prefix: $_system-level-prefix);
+  @include system-level-motion($overrides:$overrides, $prefix: $_system-level-prefix);
+  @include system-level-state($overrides: $overrides, $prefix: $_system-level-prefix);
 }
 
 /// Emits the system-level CSS variables for each of the provided override values. E.g. to
 /// change the primary color to red, use `mat.theme-overrides((primary: red));`
-@mixin theme-overrides($overrides, $prefix: $_system-fallback-prefix) {
+@mixin theme-overrides($overrides, $prefix: $_system-level-prefix) {
   $sys-names: map-merge-all(
       definitions.md-sys-color-values-light(),
       definitions.md-sys-typescale-values(),
@@ -210,7 +208,7 @@ $_system-level-prefix: sys;
 @function _create-system-app-vars-map($map) {
   $new-map: ();
   @each $key, $value in $map {
-    $new-map: map.set($new-map, $key, --#{$_system-fallback-prefix}-#{$key});
+    $new-map: map.set($new-map, $key, --#{$_system-level-prefix}-#{$key});
   }
   @return $new-map;
 }

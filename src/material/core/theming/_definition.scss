@@ -40,7 +40,7 @@ $theme-version: 1;
   $type: map.get($config, theme-type) or light;
   $primary: map.get($config, primary) or palettes.$violet-palette;
   $tertiary: map.get($config, tertiary) or $primary;
-  $system-variables-prefix: map.get($config, system-variables-prefix) or sys;
+  $system-variables-prefix: map.get($config, system-variables-prefix) or mat-sys;
   sass-utils.$use-system-color-variables: map.get($config, use-system-variables) or false;
 
   @return (
