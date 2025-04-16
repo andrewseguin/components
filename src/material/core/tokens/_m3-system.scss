@@ -17,10 +17,12 @@
 @use '../../tree/m3-tree';
 @use '../style/elevation';
 @use '../style/sass-utils';
+@use '../theming/inspection';
 @use '../theming/config-validation';
 @use '../theming/definition';
 @use './m3';
 @use './m3-tokens';
+@use './m2';
 @use 'sass:list';
 @use 'sass:map';
 @use 'sass:meta';
@@ -52,55 +54,63 @@
 ///
 /// @param {Map} $config The color configuration with optional keys color, typography, or density.
 @mixin theme($config, $overrides: ()) {
-  $color: map.get($config, color);
-  $color-config: null;
-  @if ($color) {
-    // validate-palette returns null if it is a valid M3 palette
-    $is-palette: config-validation.validate-palette($color) == null;
+  @if (map.get($config, _mat-theming-internals-do-not-access, theme-version) == 0) {
+    @include m2-system-level-colors($config, $overrides, definition.$system-fallback-prefix);
+    @include system-level-shape($overrides: $overrides, $prefix: definition.$system-fallback-prefix);
+    @include system-level-state($overrides: $overrides, $prefix: definition.$system-fallback-prefix);
+    //@include m2-system-level-elevation($config, $overrides, definition.$system-fallback-prefix);
 
-    // Default to "color-scheme" theme type if the config's color does not provide one.
-    @if (not $is-palette and not map.has-key($color, theme-type)) {
-      $color: map.set($color, theme-type, color-scheme);
+  } @else {
+    $color: map.get($config, color);
+    $color-config: null;
+    @if ($color) {
+      // validate-palette returns null if it is a valid M3 palette
+      $is-palette: config-validation.validate-palette($color) == null;
+
+      // Default to "color-scheme" theme type if the config's color does not provide one.
+      @if (not $is-palette and not map.has-key($color, theme-type)) {
+        $color: map.set($color, theme-type, color-scheme);
+      }
+
+      $color-config: if($is-palette,
+        definition.define-colors((primary: $color, theme-type: color-scheme)),
+        definition.define-colors($color));
+      @include system-level-colors($color-config, $overrides, definition.$system-fallback-prefix);
+      @include system-level-elevation($color-config, $overrides, definition.$system-fallback-prefix);
     }
 
-    $color-config: if($is-palette,
-            definition.define-colors((primary: $color, theme-type: color-scheme)),
-            definition.define-colors($color));
-    @include system-level-colors($color-config, $overrides, definition.$system-fallback-prefix);
-    @include system-level-elevation($color-config, $overrides, definition.$system-fallback-prefix);
-  }
+    $typography: map.get($config, typography);
+    $typography-config: null;
+    @if ($typography) {
+      $typography-config: if(meta.type-of($typography) == 'map',
+        definition.define-typography($typography),
+        definition.define-typography((plain-family: $typography)));
+      @include system-level-typography(
+          $typography-config, $overrides, definition.$system-fallback-prefix);
+    }
 
-  $typography: map.get($config, typography);
-  $typography-config: null;
-  @if ($typography) {
-    $typography-config: if(meta.type-of($typography) == 'map',
-      definition.define-typography($typography),
-      definition.define-typography((plain-family: $typography)));
-    @include system-level-typography(
-        $typography-config, $overrides, definition.$system-fallback-prefix);
-  }
-
-  $density: map.get($config, density);
-  $density-config: null;
-  @if ($density) {
-    $density-config: if(meta.type-of($density) == 'map',
-      definition.define-density($density),
-      definition.define-density((scale: $density)));
-    $scale: map.get($density-config, _mat-theming-internals-do-not-access, density-scale);
-    @if ($scale != 0) {
-      // Emit component-level density tokens if the scale is lower than 0. The density tokens
-      // do not fallback to any system-level values and must be defined if the scale is different.
-      $density-tokens: get-density-tokens($scale);
-      @each $prefix, $tokens in $density-tokens {
-        @each $token-name, $token-value in $tokens {
-          --#{list.nth($prefix, 1)}-#{list.nth($prefix, 2)}-#{$token-name}: #{$token-value};
+    $density: map.get($config, density);
+    $density-config: null;
+    @if ($density) {
+      $density-config: if(meta.type-of($density) == 'map',
+        definition.define-density($density),
+        definition.define-density((scale: $density)));
+      $scale: map.get($density-config, _mat-theming-internals-do-not-access, density-scale);
+      @if ($scale != 0) {
+        // Emit component-level density tokens if the scale is lower than 0. The density tokens
+        // do not fallback to any system-level values and must be defined if the scale is different.
+        $density-tokens: get-density-tokens($scale);
+        @each $prefix, $tokens in $density-tokens {
+          @each $token-name, $token-value in $tokens {
+            --#{list.nth($prefix, 1)}-#{list.nth($prefix, 2)}-#{$token-name}: #{$token-value};
+          }
         }
       }
     }
-  }
 
-  @include system-level-shape($overrides: $overrides, $prefix: definition.$system-fallback-prefix);
-  @include system-level-state($overrides: $overrides, $prefix: definition.$system-fallback-prefix);
+    @include system-level-shape($overrides: $overrides, $prefix: definition.$system-fallback-prefix);
+    @include system-level-state($overrides: $overrides, $prefix: definition.$system-fallback-prefix);
+  }
 }
 
 // Gets all density-related tokens from the components.
@@ -145,6 +155,30 @@
   }
 }
 
+@mixin m2-system-level-colors($theme, $overrides: (), $prefix: null) {
+  $type: inspection.get-theme-type($theme);
+
+  $sys-colors: _generate-sys-colors($theme, $type, 'm2');
+
+  @if (not $prefix) {
+    $prefix: map.get($theme, _mat-theming-internals-do-not-access,
+        color-system-variables-prefix) or definition.$system-level-prefix;
+  }
+
+  // Manually insert a subset of palette values that are used directly by components
+  // instead of system variables.
+  //$sys-colors: map.set($sys-colors,
+  //  'neutral-variant20', map.get($ref, md-ref-palette, neutral-variant20));
+  //$sys-colors: map.set($sys-colors,
+  //  'neutral10', map.get($ref, md-ref-palette, neutral10));
+
+  & {
+    @each $name, $value in $sys-colors {
+      --#{$prefix}-#{$name}: #{map.get($overrides, $name) or $value};
+    }
+  }
+}
+
 @mixin system-level-colors($theme, $overrides: (), $prefix: null) {
   $palettes: map.get($theme, _mat-theming-internals-do-not-access, palettes);
   $base-palettes: (
@@ -184,13 +218,17 @@
   }
 }
 
-@function _generate-sys-colors($ref, $type) {
-  $light-sys-colors: m3.md-sys-color-values-light($ref);
+@function _generate-sys-colors($ref, $type, $version: 'm3') {
+  $light-sys-colors: if($version == 'm3',
+    m3.md-sys-color-values-light($ref),
+    m2.md-sys-color-values-light($ref));
   @if ($type == light) {
     @return $light-sys-colors;
   }
 
-  $dark-sys-colors: m3.md-sys-color-values-dark($ref);
+  $dark-sys-colors: if($version == 'm3',
+    m3.md-sys-color-values-dark($ref),
+    m2.md-sys-color-values-dark($ref));
   @if ($type == dark) {
     @return $dark-sys-colors;
   }

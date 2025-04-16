@@ -33,6 +33,7 @@ sass_library(
         "//src/material/core/style:sass_utils",
         "//src/material/core/theming:_config_validation",
         "//src/material/core/theming:_definition",
+        "//src/material/core/tokens/m2",
         "//src/material/core/tokens/m3",
     ],
 )

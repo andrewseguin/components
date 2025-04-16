@@ -25,7 +25,9 @@ $candy-app-theme: mat.m2-define-light-theme((
 @include mat.elevation-classes();
 
 // Include the default theme styles.
-@include mat.all-component-themes($candy-app-theme);
+html {
+  @include mat.theme($candy-app-theme);
+}
 @include experimental.column-resize-theme($candy-app-theme);
 @include experimental.popover-edit-theme($candy-app-theme);
 
