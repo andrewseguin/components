@@ -11,5 +11,8 @@ sass_library(
         "_typography.scss",
         "_typography-utils.scss",
     ],
-    deps = ["//src/material/core/theming"],
+    deps = [
+        "//src/material/core/style:elevation",
+        "//src/material/core/theming",
+    ],
 )

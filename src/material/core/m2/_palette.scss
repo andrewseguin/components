@@ -670,6 +670,15 @@ $blue-grey-palette: (
 // Alias for alternate spelling.
 $blue-gray-palette: $blue-grey-palette;
 
+$grey-50: map.get($grey-palette, 50);
+$grey-100: map.get($grey-palette, 100);
+$grey-200: map.get($grey-palette, 200);
+$grey-200: map.get($grey-palette, 200);
+$grey-300: map.get($grey-palette, 300);
+$grey-400: map.get($grey-palette, 400);
+$grey-700: map.get($grey-palette, 700);
+$grey-800: map.get($grey-palette, 800);
+$grey-900: map.get($grey-palette, 900);
 
 // Background palette for light themes.
 $light-theme-background-palette: (

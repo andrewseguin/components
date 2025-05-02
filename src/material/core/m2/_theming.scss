@@ -4,6 +4,7 @@
 @use 'sass:color';
 @use '../theming/theming';
 @use './palette';
+@use '../style/elevation';
 
 /// Extracts a color from a palette or throws an error if it doesn't exist.
 /// @param {Map} $palette The palette from which to extract a color.
@@ -111,29 +112,142 @@
   @return $theme;
 }
 
+@function _system($primary, $accent, $warn, $is-dark) {
+  $grey-50: map.get(palette.$grey-palette, 50);
+  $grey-100: map.get(palette.$grey-palette, 100);
+  $grey-200: map.get(palette.$grey-palette, 200);
+  $grey-200: map.get(palette.$grey-palette, 200);
+  $grey-300: map.get(palette.$grey-palette, 300);
+  $grey-400: map.get(palette.$grey-palette, 400);
+  $grey-700: map.get(palette.$grey-palette, 700);
+  $grey-800: map.get(palette.$grey-palette, 800);
+  $grey-900: map.get(palette.$grey-palette, 900);
+
+  $background-status-bar: if($is-dark, black, $grey-300);
+  $background-app-bar: if($is-dark, $grey-900, $grey-100);
+  $background-background: if($is-dark, #303030, $grey-50);
+  $background-hover: rgba(if($is-dark, white, black), 0.04);
+  $background-card: if($is-dark, $grey-800, white);
+  $background-dialog: if($is-dark, $grey-800, white);
+  $background-disabled-button: rgba(if($is-dark, white, black), 0.12);
+  $background-raised-button: if($is-dark, $grey-800, white);
+  $background-focused-button: rgba(if($is-dark, white, black), 0.12);
+  $background-selected-button: if($is-dark, $grey-900, $grey-300);
+  $background-selected-disabled-button: if($is-dark, $grey-800, $grey-400);
+  $background-disabled-button-toggle: if($is-dark, black, $grey-200);
+  $background-unselected-chip: if($is-dark, $grey-700, $grey-300);
+  $background-disabled-list-option: if($is-dark, rgba(white, 0.12), $grey-200);
+  $background-tooltip: $grey-700;
+  $foreground-base: if($is-dark, white, black);
+  $foreground-divider: rgba(if($is-dark, white, black), 0.12);
+  $foreground-dividers: rgba(if($is-dark, white, black), 0.12);
+  $foreground-disabled: if($is-dark, rgba(white, 0.5), rgba(black, 0.38));
+  $foreground-disabled-button: if($is-dark, rgba(white, 0.3), rgba(black, 0.26));
+  $foreground-disabled-text: if($is-dark, rgba(white, 0.5), rgba(black, 0.38));
+  $foreground-elevation: black;
+  $foreground-hint-text: if($is-dark, rgba(white, 0.5), rgba(black, 0.38));
+  $foreground-secondary-text: rgba(white, 0.7);
+  $foreground-icon: if($is-dark, white, rgba(black, 0.54));
+  $foreground-icons: if($is-dark, white, rgba(black, 0.54));
+  $foreground-text: if($is-dark, white, rgba(black, 0.87));
+  $foreground-slider-min: if($is-dark, white, rgba(black, 0.87));
+  $foreground-slider-off: if($is-dark, rgba(white, 0.3), rgba(black, 0.26));
+  $foreground-slider-off-active: if($is-dark, rgba(white, 0.3), rgba(black, 0.38));
+
+  // Opaque disabled color
+  $badge-opacity: color.opacity($foreground-disabled-button);
+  $foreground-disabled-button-opaque: color.mix($background-background,
+    rgba($foreground-disabled-button, 1), (1 - $badge-opacity) * 100%);
+
+
+  @return (
+    // Colors
+    primary: get-color-from-palette($primary),
+    on-primary: get-color-from-palette($primary, default-contrast),
+    on-primary-10: rgba(get-color-from-palette($primary), 0.1),
+    // primary-variant: ,
+    accent: get-color-from-palette($accent),
+    on-accent: get-color-from-palette($accent, default-contrast),
+    on-accent-10: rgba(get-color-from-palette($accent), 0.1),
+    warn: get-color-from-palette($warn),
+    on-warn: get-color-from-palette($warn, default-contrast),
+    on-warn-10: rgba(get-color-from-palette($warn), 0.1),
+    // secondary: ,
+    // secondary-variant: ,
+    // background: ,
+    // error: ,
+    // on-primary: ,
+    // on-secondary: ,
+    // on-background: ,
+    // on-surface: ,
+    // on-surface-variant:
+    // on-error: ,
+    background-status-bar: $background-status-bar,
+    background-app-bar: $background-app-bar,
+    background-background: $background-background,
+    background-hover: $background-hover,
+    background-card: $background-card,
+    background-dialog: $background-dialog,
+    background-disabled-button: $background-disabled-button,
+    background-raised-button: $background-raised-button,
+    background-focused-button: $background-focused-button,
+    background-selected-button: $background-selected-button,
+    background-selected-disabled-button: $background-selected-disabled-button,
+    background-disabled-button-toggle: $background-disabled-button-toggle,
+    background-unselected-chip: $background-unselected-chip,
+    background-disabled-list-option: $background-disabled-list-option,
+    background-tooltip: $background-tooltip,
+    foreground-base: $foreground-base,
+    foreground-divider: $foreground-divider,
+    foreground-dividers: $foreground-dividers,
+    foreground-disabled: $foreground-disabled,
+    foreground-disabled-button: $foreground-disabled-button,
+    foreground-disabled-text: $foreground-disabled-text,
+    foreground-elevation: $foreground-elevation,
+    foreground-hint-text: $foreground-hint-text,
+    foreground-secondary-text: $foreground-secondary-text,
+    foreground-icon: $foreground-icon,
+    foreground-icons: $foreground-icons,
+    foreground-text: $foreground-text,
+    foreground-slider-min: $foreground-slider-min,
+    foreground-slider-off: $foreground-slider-off,
+    foreground-slider-off-active: $foreground-slider-off-active,
+
+    foreground-disabled-button-opaque: $foreground-disabled-button-opaque,
+  );
+}
+
 // Creates a light-themed color configuration from the specified
 // primary, accent and warn palettes.
 @function _mat-create-light-color-config($primary, $accent, $warn: null) {
+  @if not $warn {
+    $warn: define-palette(palette.$red-palette);
+  }
   @return (
     primary: $primary,
     accent: $accent,
-    warn: if($warn != null, $warn, define-palette(palette.$red-palette)),
+    warn: $warn,
     is-dark: false,
     foreground: palette.$light-theme-foreground-palette,
-    background: palette.$light-theme-background-palette
+    background: palette.$light-theme-background-palette,
+    system: _system($primary, $accent, $warn, false)
   );
 }
 
 // Creates a dark-themed color configuration from the specified
 // primary, accent and warn palettes.
 @function _mat-create-dark-color-config($primary, $accent, $warn: null) {
+  @if not $warn {
+    $warn: define-palette(palette.$red-palette);
+  }
   @return (
     primary: $primary,
     accent: $accent,
-    warn: if($warn != null, $warn, define-palette(palette.$red-palette)),
+    warn: $warn,
     is-dark: true,
     foreground: palette.$dark-theme-foreground-palette,
-    background: palette.$dark-theme-background-palette
+    background: palette.$dark-theme-background-palette,
+    system: _system($primary, $accent, $warn, false)
   );
 }
 

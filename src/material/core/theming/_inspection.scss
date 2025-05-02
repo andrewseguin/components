@@ -106,6 +106,15 @@ $_typography-properties: (font, font-family, line-height, font-size, letter-spac
   @error 'Unrecognized theme version: #{$version}';
 }
 
+@function m2-system($theme, $key) {
+  $value: map.get($theme, _mat-theming-internals-do-not-access, m2-config, system, $key);
+  @if ($value) {
+    @return $value;
+  }
+
+  @return map.get($theme, system, $key);
+}
+
 /// Gets a role color from a theme object.
 /// @param {Map} $theme The theme
 /// @param {String} $color-role-name The name of the color role to get.

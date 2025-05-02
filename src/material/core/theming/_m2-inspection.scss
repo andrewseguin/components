@@ -124,7 +124,6 @@ $_typography-properties: (font, font-family, line-height, font-size, letter-spac
   }
   $palette: map.get($colors, $palette-name);
   @if not $palette {
-    @error $palette-name $args $theme;
     @error #{'Unrecognized palette name:'} $palette-name;
   }
   @return m2-theming.get-color-from-palette($palette, $args...);

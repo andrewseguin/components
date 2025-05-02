@@ -52,7 +52,7 @@ $prefix: (mat, button);
   // internally. For now we fall back to the old hardcoded behavior only for internal apps.
   $outline: if(m2-utils.$private-is-internal-build,
     rgba(if($is-dark, #fff, #000), 0.12),
-    inspection.get-theme-color($theme, foreground, divider)
+    inspection.m2-system($theme, foreground-divider)
   );
 
   @return (
@@ -117,8 +117,8 @@ $prefix: (mat, button);
 
 // Generates the mapping for the properties that change based on the button palette color.
 @function private-get-color-palette-color-tokens($theme, $palette-name) {
-  $color: inspection.get-theme-color($theme, $palette-name);
-  $state-layer-color: inspection.get-theme-color($theme, $palette-name, default-contrast, 1);
+  $color: inspection.m2-system($theme, $palette-name);
+  $state-layer-color: inspection.m2-system($theme, on-#{$palette-name}, default-contrast, 1);
   $ripple-color: inspection.get-theme-color($theme, $palette-name, default-contrast, 0.1);
   $contrast-color: inspection.get-theme-color($theme, $palette-name, default-contrast);
   $container-color: inspection.get-theme-color($theme, $palette-name, default);
