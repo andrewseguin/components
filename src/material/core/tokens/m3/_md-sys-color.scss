@@ -3,6 +3,8 @@
 // Design system version: v0.161
 //
 
+@use 'sass:list';
+@use 'sass:meta';
 @use 'sass:map';
 
 @use './md-ref-palette';
@@ -14,7 +16,16 @@ $_default-dark: (
   'md-ref-palette': md-ref-palette.values(),
 );
 
-@function values-dark($deps: $_default-dark) {
+@function values-dark($deps: $_default-dark, $design-system: 'm3') {
+  @if ($design-system == 'm2') {
+    @return _m2-values-light($deps);
+  }
+  @if ($design-system == 'm3') {
+    @return _m3-values-dark($deps);
+  }
+}
+
+@function _m3-values-dark($deps) {
   $values: (
     'background': map.get($deps, 'md-ref-palette', 'neutral6'),
     'error': map.get($deps, 'md-ref-palette', 'error80'),
@@ -33,7 +44,7 @@ $_default-dark: (
     'on-secondary-container': map.get($deps, 'md-ref-palette', 'secondary90'),
     'on-secondary-fixed': map.get($deps, 'md-ref-palette', 'secondary10'),
     'on-secondary-fixed-variant':
-      map.get($deps, 'md-ref-palette', 'secondary30'),
+    map.get($deps, 'md-ref-palette', 'secondary30'),
     'on-surface': map.get($deps, 'md-ref-palette', 'neutral90'),
     'on-surface-variant': map.get($deps, 'md-ref-palette', 'neutral-variant90'),
     'on-tertiary': map.get($deps, 'md-ref-palette', 'tertiary20'),
@@ -91,7 +102,102 @@ $_default-light: (
   'md-ref-palette': md-ref-palette.values(),
 );
 
-@function values-light($deps: $_default-light) {
+@function values-light($deps: $_default-light, $design-system: 'm3') {
+  @if ($design-system == 'm2') {
+    @return _m2-values-light($deps);
+  }
+  @if ($design-system == 'm3') {
+    @return _m3-values-light($deps);
+  }
+}
+
+@function _m2-values-light($deps) {
+  $values: (
+    'background': (neutral, 100),
+    'on-background': (neutral, 900),
+    'outline': (neutral, 300),
+    'outline-variant': (neutral, 600),
+    'scrim': (neutral, 900, 60),
+    'shadow': (neutral, 800),
+
+    // Primary
+    'primary': (primary, 600),
+    'on-primary': white,
+    'primary-container': (primary, 50),
+    'on-primary-container': (primary, 700),
+    'inverse-primary': (primary, 300),
+    'primary-fixed': (primary, 600),
+    'on-primary-fixed': white,
+    'primary-fixed-dim': (primary, 600),
+    'on-primary-fixed-variant': white,
+
+    // Secondary
+    'secondary': (accent, 600),
+    'on-secondary': white,
+    'secondary-container': (accent, 700),
+    'on-secondary-container': (accent, 50),
+    'secondary-fixed': (accent, 300),
+    'on-secondary-fixed': (accent, 600),
+    'secondary-fixed-dim': (accent, 600),
+    'on-secondary-fixed-variant': white,
+
+    // Tertiary
+    'tertiary': (accent, 600),
+    'on-tertiary': white,
+    'tertiary-container': (accent, 700),
+    'on-tertiary-container': (accent, 50),
+    'tertiary-fixed': (accent, 300),
+    'on-tertiary-fixed': (accent, 600),
+    'tertiary-fixed-dim': (accent, 600),
+    'on-tertiary-fixed-variant': white,
+
+    // Error
+    'error': (warn, 600),
+    'on-error': white,
+    'error-container': (warn, 50),
+    'on-error-container': (warn, 700),
+
+    // Surface
+    'surface': white,
+    'on-surface': (neutral, 800),
+    'surface-bright': white,
+    'surface-container': white,
+    'surface-container-high': white,
+    'surface-container-highest': white,
+    'surface-container-low': white,
+    'surface-container-lowest': white,
+    'surface-dim': white,
+    'surface-tint': white,
+    'surface-variant': (neutral, 100),
+    'on-surface-variant': (neutral, 700),
+    'inverse-surface': (neutral, 900),
+    'inverse-on-surface': (neutral, 200),
+  );
+
+  @return get-colors($deps, $values);
+}
+
+
+@function get-colors($deps, $values) {
+  $results: ();
+  @each $key, $value in $values {
+    @if (meta.type-of($value) == 'list') {
+      $palette: map.get($deps, list.nth($value, 1));
+      $color: map.get($palette, list.nth($value, 2));
+      @if list.length($value) == 3 {
+        $alpha: list.nth($value, 3);
+        $results: map.set($results, $key, rgba($color, $alpha));
+      } @else {
+        $results: map.set($results, $key, $color);
+      }
+    } @else {
+      $results: map.set($results, $key, $value);
+    }
+  }
+  @return $results;
+}
+
+@function _m3-values-light($deps) {
   $values: (
     'background': map.get($deps, 'md-ref-palette', 'neutral98'),
     'error': map.get($deps, 'md-ref-palette', 'error40'),
