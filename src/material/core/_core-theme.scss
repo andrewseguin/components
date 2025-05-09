@@ -97,7 +97,7 @@
   // the imported themes (such as `mat-ripple-theme`) should not report again.
   @include theming.private-check-duplicate-theme-styles($theme, 'mat-core') {
     @if inspection.get-theme-version($theme) == 1 {
-      @include _theme-from-tokens(inspection.get-theme-tokens($theme), $options...);
+      @include _theme-from-tokens(inspection.get-theme-tokens($theme));
     } @else {
       @include base($theme);
       @if inspection.theme-has($theme, color) {

@@ -185,12 +185,6 @@ $_system-fallbacks: m3-system.create-system-fallbacks();
 /// Gets the token values for the given components prefix with the given options.
 /// @param {Map} $tokens The full token map.
 /// @param {List} $prefix The component prefix to get the token values for.
-/// @param {ArgList} Any additional options
-///   Currently the additional supported options are:
-//     - $color-variant - The color variant to use for the component
-//     - $emit-overrides-only - Whether to emit *only* the overrides for the
-//                              specific color variant, or all color styles. Defaults to false.
-/// @throws If given options are invalid
 /// @return {Map} The token values for the requested component.
 @function get-tokens-for($tokens, $prefix, $options...) {
   @if $options {

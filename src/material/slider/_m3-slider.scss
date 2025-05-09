@@ -68,54 +68,5 @@ $prefix: (mat, slider);
     $tokens: map.set($tokens, handle-elevation, elevation.get-box-shadow($handle-elevation));
   }
 
-  $variant-tokens: (
-    primary: (), // Default, no overrides needed
-    secondary: (
-      ripple-color: map.get($systems, md-sys-color, secondary),
-      hover-state-layer-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, secondary), $alpha: 0.05),
-      focus-state-layer-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, secondary), $alpha: 0.2),
-      active-track-color: map.get($systems, md-sys-color, secondary),
-      focus-handle-color: map.get($systems, md-sys-color, secondary),
-      handle-color: map.get($systems, md-sys-color, secondary),
-      hover-handle-color: map.get($systems, md-sys-color, secondary),
-      label-container-color: map.get($systems, md-sys-color, secondary),
-      label-label-text-color: map.get($systems, md-sys-color, on-secondary),
-      with-overlap-handle-outline-color: map.get($systems, md-sys-color, on-secondary),
-      with-tick-marks-active-container-color: map.get($systems, md-sys-color, on-secondary),
-    ),
-    tertiary: (
-      ripple-color: map.get($systems, md-sys-color, tertiary),
-      hover-state-layer-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, tertiary), $alpha: 0.05),
-      focus-state-layer-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, tertiary), $alpha: 0.2),
-      active-track-color: map.get($systems, md-sys-color, tertiary),
-      focus-handle-color: map.get($systems, md-sys-color, tertiary),
-      handle-color: map.get($systems, md-sys-color, tertiary),
-      hover-handle-color: map.get($systems, md-sys-color, tertiary),
-      label-container-color: map.get($systems, md-sys-color, tertiary),
-      label-label-text-color: map.get($systems, md-sys-color, on-tertiary),
-      with-overlap-handle-outline-color: map.get($systems, md-sys-color, on-tertiary),
-      with-tick-marks-active-container-color: map.get($systems, md-sys-color, on-tertiary),
-    ),
-    error: (
-      ripple-color: map.get($systems, md-sys-color, error),
-      hover-state-layer-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, error), $alpha: 0.05),
-      focus-state-layer-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, error), $alpha: 0.2),
-      active-track-color: map.get($systems, md-sys-color, error),
-      focus-handle-color: map.get($systems, md-sys-color, error),
-      handle-color: map.get($systems, md-sys-color, error),
-      hover-handle-color: map.get($systems, md-sys-color, error),
-      label-container-color: map.get($systems, md-sys-color, error),
-      label-label-text-color: map.get($systems, md-sys-color, on-error),
-      with-overlap-handle-outline-color: map.get($systems, md-sys-color, on-error),
-      with-tick-marks-active-container-color: map.get($systems, md-sys-color, on-error),
-    ),
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }

@@ -42,24 +42,7 @@ $prefix: (mat, button-toggle);
     divider-color: map.get($systems, md-sys-color, outline),
   ));
 
-  $color-variants: (
-    // Color variants:
-    primary: (
-      selected-state-background-color: map.get($systems, md-sys-color, primary-container),
-      selected-state-text-color: map.get($systems, md-sys-color, on-primary-container),
-    ),
-    secondary: (), // Default, no overrides needed
-    tertiary: (
-      selected-state-background-color: map.get($systems, md-sys-color, tertiary-container),
-      selected-state-text-color: map.get($systems, md-sys-color, on-tertiary-container),
-    ),
-    error: (
-      selected-state-background-color: map.get($systems, md-sys-color, error-container),
-      selected-state-text-color: map.get($systems, md-sys-color, on-error-container),
-    )
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $color-variants), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }
 
 // Tokens that can be configured through Angular Material's density theming API.

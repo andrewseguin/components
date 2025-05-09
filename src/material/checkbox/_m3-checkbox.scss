@@ -54,41 +54,7 @@ $prefix: (mat, checkbox);
         map.get($systems, md-sys-state, pressed-state-layer-opacity),
   );
 
-  $variant-tokens: (
-    primary: (), // Default, no overrides needed
-    secondary: (
-      selected-focus-icon-color: map.get($systems, md-sys-color, secondary),
-      selected-focus-state-layer-color: map.get($systems, md-sys-color, secondary),
-      selected-hover-icon-color: map.get($systems, md-sys-color, secondary),
-      selected-hover-state-layer-color: map.get($systems, md-sys-color, secondary),
-      selected-icon-color: map.get($systems, md-sys-color, secondary),
-      selected-pressed-icon-color: map.get($systems, md-sys-color, secondary),
-      unselected-pressed-state-layer-color: map.get($systems, md-sys-color, secondary),
-      selected-checkmark-color: map.get($systems, md-sys-color, on-secondary),
-    ),
-    tertiary: (
-      selected-focus-icon-color: map.get($systems, md-sys-color, tertiary),
-      selected-focus-state-layer-color: map.get($systems, md-sys-color, tertiary),
-      selected-hover-icon-color: map.get($systems, md-sys-color, tertiary),
-      selected-hover-state-layer-color: map.get($systems, md-sys-color, tertiary),
-      selected-icon-color: map.get($systems, md-sys-color, tertiary),
-      selected-pressed-icon-color: map.get($systems, md-sys-color, tertiary),
-      unselected-pressed-state-layer-color: map.get($systems, md-sys-color, tertiary),
-      selected-checkmark-color: map.get($systems, md-sys-color, on-tertiary),
-    ),
-    error: (
-      selected-focus-icon-color: map.get($systems, md-sys-color, error),
-      selected-focus-state-layer-color: map.get($systems, md-sys-color, error),
-      selected-hover-icon-color: map.get($systems, md-sys-color, error),
-      selected-hover-state-layer-color: map.get($systems, md-sys-color, error),
-      selected-icon-color: map.get($systems, md-sys-color, error),
-      selected-pressed-icon-color: map.get($systems, md-sys-color, error),
-      unselected-pressed-state-layer-color: map.get($systems, md-sys-color, error),
-      selected-checkmark-color: map.get($systems, md-sys-color, on-error),
-    )
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }
 
 // Tokens that can be configured through Angular Material's density theming API.

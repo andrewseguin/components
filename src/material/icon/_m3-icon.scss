@@ -14,22 +14,5 @@ $prefix: (mat, icon);
     color: m3-utils.hardcode(inherit, $exclude-hardcoded),
   );
 
-  $variant-tokens: (
-    // Color variants:
-    surface: (), // Default, no overrides needed.
-    primary: (
-      color: map.get($systems, md-sys-color, primary),
-    ),
-    secondary: (
-      color: map.get($systems, md-sys-color, secondary),
-    ),
-    tertiary: (
-      color: map.get($systems, md-sys-color, tertiary),
-    ),
-    error: (
-      color: map.get($systems, md-sys-color, error),
-    )
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }

@@ -39,32 +39,7 @@ $prefix: (mat, radio);
     unselected-pressed-icon-color: map.get($systems, md-sys-color, on-surface),
   );
 
-  $variant-tokens: (
-    primary: (), // Default, no overrides needed
-    secondary: (
-      checked-ripple-color: map.get($systems, md-sys-color, secondary),
-      selected-focus-icon-color: map.get($systems, md-sys-color, secondary),
-      selected-hover-icon-color: map.get($systems, md-sys-color, secondary),
-      selected-icon-color: map.get($systems, md-sys-color, secondary),
-      selected-pressed-icon-color: map.get($systems, md-sys-color, secondary),
-    ),
-    tertiary: (
-      checked-ripple-color: map.get($systems, md-sys-color, tertiary),
-      selected-focus-icon-color: map.get($systems, md-sys-color, tertiary),
-      selected-hover-icon-color: map.get($systems, md-sys-color, tertiary),
-      selected-icon-color: map.get($systems, md-sys-color, tertiary),
-      selected-pressed-icon-color: map.get($systems, md-sys-color, tertiary),
-    ),
-    error: (
-      checked-ripple-color: map.get($systems, md-sys-color, error),
-      selected-focus-icon-color: map.get($systems, md-sys-color, error),
-      selected-hover-icon-color: map.get($systems, md-sys-color, error),
-      selected-icon-color: map.get($systems, md-sys-color, error),
-      selected-pressed-icon-color: map.get($systems, md-sys-color, error),
-    ),
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }
 
 // Tokens that can be configured through Angular Material's density theming API.

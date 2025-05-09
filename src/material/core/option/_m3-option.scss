@@ -36,22 +36,5 @@ $prefix: (mat, option);
     label-text-tracking: map.get($systems, md-sys-typescale, label-large-tracking),
   );
 
-  $variant-tokens: (
-    // Color variants:
-    primary: (
-      selected-state-label-text-color: map.get($systems, md-sys-color, on-primary-container),
-      selected-state-layer-color: map.get($systems, md-sys-color, primary-container),
-    ),
-    secondary: (), // Default, no overrides needed
-    tertiary: (
-      selected-state-label-text-color: map.get($systems, md-sys-color, on-tertiary-container),
-      selected-state-layer-color: map.get($systems, md-sys-color, tertiary-container),
-    ),
-    error: (
-      selected-state-label-text-color: map.get($systems, md-sys-color, on-error-container),
-      selected-state-layer-color: map.get($systems, md-sys-color, error-container),
-    )
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }

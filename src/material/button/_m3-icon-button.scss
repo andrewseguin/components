@@ -30,42 +30,7 @@ $prefix: (mat, icon-button);
     icon-color: map.get($systems, md-sys-color, on-surface-variant),
   );
 
-  $variant-tokens: (
-    primary: (
-      state-layer-color: map.get($systems, md-sys-color, primary),
-      ripple-color: sass-utils.safe-color-change(
-        map.get($systems, md-sys-color, primary),
-        $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)
-      ),
-      icon-color: map.get($systems, md-sys-color, primary)
-    ),
-    secondary: (
-      state-layer-color: map.get($systems, md-sys-color, secondary),
-      ripple-color: sass-utils.safe-color-change(
-        map.get($systems, md-sys-color, secondary),
-        $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)
-      ),
-      icon-color: map.get($systems, md-sys-color, secondary)
-    ),
-    tertiary: (
-      state-layer-color: map.get($systems, md-sys-color, tertiary),
-      ripple-color: sass-utils.safe-color-change(
-        map.get($systems, md-sys-color, tertiary),
-        $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)
-      ),
-      icon-color: map.get($systems, md-sys-color, tertiary)
-    ),
-    error: (
-      state-layer-color: map.get($systems, md-sys-color, error),
-      ripple-color: sass-utils.safe-color-change(
-        map.get($systems, md-sys-color, error),
-        $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)
-      ),
-      icon-color: map.get($systems, md-sys-color, error)
-    )
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }
 
 // Tokens that can be configured through Angular Material's density theming API.

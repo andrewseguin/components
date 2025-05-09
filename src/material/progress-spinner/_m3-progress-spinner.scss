@@ -16,19 +16,5 @@ $prefix: (mat, progress-spinner);
     size: if($exclude-hardcoded, null, 48px)
   );
 
-  $variant-tokens: (
-    primary: (), // Default, no overrides needed
-    secondary: (
-      active-indicator-color: map.get($systems, md-sys-color, secondary),
-    ),
-    tertiary: (
-      active-indicator-color: map.get($systems, md-sys-color, tertiary),
-    ),
-    error: (
-      active-indicator-color: map.get($systems, md-sys-color, error),
-    )
-  );
-
-  @return m3-utils.namespace(
-      $prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }

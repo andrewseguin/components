@@ -80,42 +80,7 @@ $prefix: (mat, chip);
       ),
   );
 
-  $variant-tokens: (
-    // Color variants:
-    primary: (
-      selected-trailing-icon-color: map.get($systems, md-sys-color, on-primary-container),
-      selected-trailing-action-state-layer-color:
-      map.get($systems, md-sys-color, on-primary-container),
-      with-icon-selected-icon-color: map.get($systems, md-sys-color, on-primary-container),
-      elevated-selected-container-color: map.get($systems, md-sys-color, primary-container),
-      selected-label-text-color: map.get($systems, md-sys-color, on-primary-container),
-      selected-hover-state-layer-color: map.get($systems, md-sys-color, on-primary-container),
-      selected-focus-state-layer-color: map.get($systems, md-sys-color, on-primary-container),
-    ),
-    secondary: (), // Default, no overrides needed.
-    tertiary: (
-      selected-trailing-icon-color: map.get($systems, md-sys-color, on-tertiary-container),
-      selected-trailing-action-state-layer-color:
-      map.get($systems, md-sys-color, on-tertiary-container),
-      with-icon-selected-icon-color: map.get($systems, md-sys-color, on-tertiary-container),
-      elevated-selected-container-color: map.get($systems, md-sys-color, tertiary-container),
-      selected-label-text-color: map.get($systems, md-sys-color, on-tertiary-container),
-      selected-hover-state-layer-color: map.get($systems, md-sys-color, on-tertiary-container),
-      selected-focus-state-layer-color: map.get($systems, md-sys-color, on-tertiary-container),
-    ),
-    error: (
-      selected-trailing-icon-color: map.get($systems, md-sys-color, on-error-container),
-      selected-trailing-action-state-layer-color:
-      map.get($systems, md-sys-color, on-error-container),
-      with-icon-selected-icon-color: map.get($systems, md-sys-color, on-error-container),
-      elevated-selected-container-color: map.get($systems, md-sys-color, error-container),
-      selected-label-text-color: map.get($systems, md-sys-color, on-error-container),
-      selected-hover-state-layer-color: map.get($systems, md-sys-color, on-error-container),
-      selected-focus-state-layer-color: map.get($systems, md-sys-color, on-error-container),
-    )
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }
 
 // Tokens that can be configured through Angular Material's density theming API.

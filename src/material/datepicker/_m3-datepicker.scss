@@ -83,43 +83,5 @@ $prefix: (mat, datepicker);
     calendar-header-text-weight: map.get($systems, md-sys-typescale, title-small-weight),
   );
 
-  $variant-tokens: (
-    // Color variants:
-    primary: (), // Default, no overrides needed.
-    secondary: (
-      calendar-date-in-range-state-background-color:
-          map.get($systems, md-sys-color, secondary-container),
-      calendar-date-selected-state-text-color: map.get($systems, md-sys-color, on-secondary),
-      calendar-date-selected-state-background-color: map.get($systems, md-sys-color, secondary),
-      calendar-date-today-selected-state-outline-color: map.get($systems, md-sys-color, secondary),
-      calendar-date-today-outline-color: map.get($systems, md-sys-color, secondary),
-      calendar-date-preview-state-outline-color: map.get($systems, md-sys-color, secondary),
-      calendar-date-in-overlap-range-state-background-color:
-          map.get($systems, md-sys-color, primary-container),
-      calendar-date-in-overlap-range-selected-state-background-color:
-          map.get($systems, md-sys-color, primary),
-    ),
-    tertiary: (
-      calendar-date-in-range-state-background-color:
-          map.get($systems, md-sys-color, tertiary-container),
-      calendar-date-selected-state-text-color: map.get($systems, md-sys-color, on-tertiary),
-      calendar-date-selected-state-background-color: map.get($systems, md-sys-color, tertiary),
-      calendar-date-today-selected-state-outline-color: map.get($systems, md-sys-color, tertiary),
-      calendar-date-today-outline-color: map.get($systems, md-sys-color, tertiary),
-      calendar-date-preview-state-outline-color: map.get($systems, md-sys-color, tertiary),
-      calendar-date-in-comparison-range-state-background-color:
-          map.get($systems, md-sys-color, primary-container),
-    ),
-    error: (
-      calendar-date-in-range-state-background-color:
-          map.get($systems, md-sys-color, error-container),
-      calendar-date-selected-state-text-color: map.get($systems, md-sys-color, on-error),
-      calendar-date-selected-state-background-color: map.get($systems, md-sys-color, error),
-      calendar-date-today-selected-state-outline-color: map.get($systems, md-sys-color, error),
-      calendar-date-today-outline-color: map.get($systems, md-sys-color, error),
-      calendar-date-preview-state-outline-color: map.get($systems, md-sys-color, error),
-    )
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }

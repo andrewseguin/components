@@ -104,7 +104,7 @@
 @mixin theme($theme, $options...) {
   @include theming.private-check-duplicate-theme-styles($theme, 'mat-stepper') {
     @if inspection.get-theme-version($theme) == 1 {
-      @include _theme-from-tokens(inspection.get-theme-tokens($theme), $options...);
+      @include _theme-from-tokens(inspection.get-theme-tokens($theme));
       @if inspection.theme-has($theme, density) {
         @include density($theme);
       }

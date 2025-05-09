@@ -25,25 +25,5 @@ $prefix: (mat, pseudo-checkbox);
     minimal-selected-checkmark-color: map.get($systems, md-sys-color, primary),
   );
 
-  $variant-tokens: (
-    // Color variants:
-    primary: (), // Default, no overrides needed.
-    secondary: (
-      full-selected-checkmark-color: map.get($systems, md-sys-color, on-secondary),
-      full-selected-icon-color: map.get($systems, md-sys-color, secondary),
-      minimal-selected-checkmark-color: map.get($systems, md-sys-color, secondary),
-    ),
-    tertiary: (
-      full-selected-checkmark-color: map.get($systems, md-sys-color, on-tertiary),
-      full-selected-icon-color: map.get($systems, md-sys-color, tertiary),
-      minimal-selected-checkmark-color: map.get($systems, md-sys-color, tertiary),
-    ),
-    error: (
-      full-selected-checkmark-color: map.get($systems, md-sys-color, on-error),
-      full-selected-icon-color: map.get($systems, md-sys-color, error),
-      minimal-selected-checkmark-color: map.get($systems, md-sys-color, error),
-    )
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }

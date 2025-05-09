@@ -135,91 +135,6 @@ $prefix: (mat, button);
     tonal-state-layer-color: map.get($systems, md-sys-color, on-secondary-container),
   );
 
-  $variant-tokens: (
-    primary: (), // Default, no overrides needed.
-    secondary: (
-      filled-container-color: map.get($systems, md-sys-color, secondary),
-      filled-label-text-color: map.get($systems, md-sys-color, on-secondary),
-      filled-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, on-secondary),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      filled-state-layer-color: map.get($systems, md-sys-color, on-secondary),
-      outlined-label-text-color: map.get($systems, md-sys-color, secondary),
-      outlined-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, secondary),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      outlined-state-layer-color: map.get($systems, md-sys-color, secondary),
-      protected-label-text-color: map.get($systems, md-sys-color, secondary),
-      protected-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, secondary),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      protected-state-layer-color: map.get($systems, md-sys-color, secondary),
-      text-label-text-color: map.get($systems, md-sys-color, secondary),
-      text-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, secondary),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      text-state-layer-color: map.get($systems, md-sys-color, secondary),
-    ),
-    tertiary: (
-      filled-container-color: map.get($systems, md-sys-color, tertiary),
-      filled-label-text-color: map.get($systems, md-sys-color, on-tertiary),
-      filled-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, on-tertiary),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      filled-state-layer-color: map.get($systems, md-sys-color, on-tertiary),
-      outlined-label-text-color: map.get($systems, md-sys-color, tertiary),
-      outlined-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, tertiary),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      outlined-state-layer-color: map.get($systems, md-sys-color, tertiary),
-      protected-label-text-color: map.get($systems, md-sys-color, tertiary),
-      protected-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, tertiary),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      protected-state-layer-color: map.get($systems, md-sys-color, tertiary),
-      text-label-text-color: map.get($systems, md-sys-color, tertiary),
-      text-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, tertiary),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      text-state-layer-color: map.get($systems, md-sys-color, tertiary),
-      tonal-container-color: map.get($systems, md-sys-color, tertiary-container),
-      tonal-label-text-color: map.get($systems, md-sys-color, on-tertiary-container),
-      tonal-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, on-tertiary-container),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      tonal-state-layer-color: map.get($systems, md-sys-color, on-tertiary-container),
-    ),
-    error: (
-      filled-container-color: map.get($systems, md-sys-color, error),
-      filled-label-text-color: map.get($systems, md-sys-color, on-error),
-      filled-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, on-error),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      filled-state-layer-color: map.get($systems, md-sys-color, on-error),
-      outlined-label-text-color: map.get($systems, md-sys-color, error),
-      outlined-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, error),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      outlined-state-layer-color: map.get($systems, md-sys-color, error),
-      protected-label-text-color: map.get($systems, md-sys-color, error),
-      protected-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, error),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      protected-state-layer-color: map.get($systems, md-sys-color, error),
-      text-label-text-color: map.get($systems, md-sys-color, error),
-      text-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, error),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      text-state-layer-color: map.get($systems, md-sys-color, error),
-      tonal-container-color: map.get($systems, md-sys-color, error-container),
-      tonal-label-text-color: map.get($systems, md-sys-color, on-error-container),
-      tonal-ripple-color: sass-utils.safe-color-change(
-          map.get($systems, md-sys-color, on-error-container),
-          $alpha: map.get($systems, md-sys-state, pressed-state-layer-opacity)),
-      tonal-state-layer-color: map.get($systems, md-sys-color, on-error-container),
-    )
-  );
-
   $elevation-tokens: (
     protected-container-elevation-shadow,
     protected-disabled-container-elevation-shadow,
@@ -237,7 +152,7 @@ $prefix: (mat, button);
   }
 
 
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }
 
 // Tokens that can be configured through Angular Material's density theming API.
