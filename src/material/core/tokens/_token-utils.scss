@@ -193,33 +193,14 @@ $_system-fallbacks: m3-system.create-system-fallbacks();
 /// @throws If given options are invalid
 /// @return {Map} The token values for the requested component.
 @function get-tokens-for($tokens, $prefix, $options...) {
-  $options: sass-utils.validate-keyword-args($options, (color-variant, emit-overrides-only));
+  @if $options {
+    // @error 'gave options';
+  }
   @if $tokens == () {
     @return ();
   }
   $values: map.get($tokens, $prefix);
-  @if ($values == null) {
-    @return ();
-  }
-
-  $color-variant: map.get($options, color-variant);
-  $emit-overrides-only: map.get($options, emit-overrides-only);
-  @if $color-variant == null {
-    @return $values;
-  }
-  $overrides: map.get($tokens, list.append($prefix, $color-variant));
-  @if $overrides == null {
-    $variants: _supported-color-variants($tokens, $prefix);
-    $secondary-message: if(
-      $variants == (),
-      'Mixin does not support color variants',
-      'Supported color variants are: #{$variants}'
-    );
-
-    @error 'Invalid color variant: #{$color-variant}. #{$secondary-message}.';
-  }
-
-  @return if($emit-overrides-only, $overrides, map.merge($values, $overrides));
+  @return ();
 }
 
 /// Emits new token values for the given token overrides.

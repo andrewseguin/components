@@ -5,6 +5,7 @@
 @use '../../checkbox/checkbox-theme';
 @use '../../chips/chips-theme';
 @use '../../datepicker/datepicker-theme';
+@use '../../form-field/form-field-theme';
 @use '../../icon/icon-theme';
 @use '../../progress-bar/progress-bar-theme';
 @use '../../progress-spinner/progress-spinner-theme';
@@ -14,128 +15,429 @@
 @use '../../slider/slider-theme';
 @use '../../stepper/stepper-theme';
 @use '../../tabs/tabs-theme';
-@use '../../form-field/form-field-theme';
+@use '../core-theme';
 @use '../option/option-theme';
 @use '../selection/pseudo-checkbox/pseudo-checkbox-theme';
-
-// We want to emit only the overrides, because the backwards compatibility styles are usually
-// emitted after all the tokens have been included once already. This allows us to save ~50kb
-// from the bundle.
-$_overrides-only: true;
-
-@mixin _color-variant-styles($theme, $color-variant) {
-  $primary-options: (color-variant: $color-variant, emit-overrides-only: $_overrides-only);
-
-  // Some components use the secondary color rather than primary color for `.mat-primary`.
-  // Those components should use the $secondary-color-variant.
-  $secondary-options: (
-    color-variant: if($color-variant == primary, secondary, $color-variant),
-    emit-overrides-only: $_overrides-only
-  );
-
-  & {
-    @include option-theme.color($theme, $secondary-options...);
-  }
-
-  & {
-    @include progress-spinner-theme.color($theme, $primary-options...);
-  }
-
-  & {
-    @include pseudo-checkbox-theme.color($theme, $primary-options...);
-  }
-
-  & {
-    @include stepper-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-icon {
-    @include icon-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-checkbox {
-    @include checkbox-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-slider {
-    @include slider-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-tab-group,
-  &.mat-mdc-tab-nav-bar {
-    @include tabs-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-slide-toggle {
-    @include slide-toggle-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-form-field {
-    @include select-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-radio-button {
-    @include radio-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-progress-bar {
-    @include progress-bar-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-form-field {
-    @include form-field-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-datepicker-content {
-    @include datepicker-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-button-base {
-    @include button-theme.color($theme, $primary-options...);
-    @include icon-button-theme.color($theme, $primary-options...);
-  }
-
-  &.mat-mdc-standard-chip {
-    @include chips-theme.color($theme, $secondary-options...);
-  }
-
-  .mdc-list-item__start,
-  .mdc-list-item__end {
-    @include checkbox-theme.color($theme, $primary-options...);
-    @include radio-theme.color($theme, $primary-options...);
-  }
-
-  // M3 dropped support for warn/error color FABs.
-  @if $color-variant != error {
-    &.mat-mdc-fab,
-    &.mat-mdc-mini-fab {
-      @include fab-theme.color($theme, $primary-options...);
-    }
-  }
-}
+@use 'sass:map';
 
 @mixin color-variants-backwards-compatibility($theme) {
+  $color-tokens: map.get($theme, _mat-theming-internals-do-not-access, color-tokens, (mat, theme));
+
+  $primary: map.get($color-tokens, primary);
+  $on-primary: map.get($color-tokens, on-primary);
+  $primary-container: map.get($color-tokens, primary-container);
+  $on-primary-container: map.get($color-tokens, on-primary-container);
+  
   .mat-primary {
-    @include _color-variant-styles($theme, primary);
-  }
-  .mat-badge {
-    @include badge-theme.color($theme, $color-variant: primary,
-      $emit-overrides-only: $_overrides-only);
+    @include stepper-theme.overrides((
+      header-selected-state-icon-background-color: $primary,
+      header-selected-state-icon-foreground-color: $on-primary,
+      header-done-state-icon-background-color: $primary,
+      header-done-state-icon-foreground-color: $on-primary,
+      header-edit-state-icon-background-color: $primary,
+      header-edit-state-icon-foreground-color: $on-primary
+    ));
+
+    @include icon-theme.overrides((
+      color: $primary
+    ));
+
+    @include tabs-theme.overrides((
+      active-focus-indicator-color: $primary,
+      active-hover-indicator-color: $primary,
+      active-indicator-color: $primary
+    ));
+
+    @include slide-toggle-theme.overrides((
+      selected-focus-state-layer-color: $primary,
+      selected-handle-color: $on-primary,
+      selected-hover-state-layer-color: $primary,
+      selected-pressed-state-layer-color: $primary,
+      selected-focus-handle-color: $primary-container,
+      selected-hover-handle-color: $primary-container,
+      selected-pressed-handle-color: $primary-container,
+      selected-focus-track-color: $primary,
+      selected-hover-track-color: $primary,
+      selected-pressed-track-color: $primary,
+      selected-track-color: $primary,
+      selected-icon-color: $on-primary-container,
+    ));
+
+    @include icon-button-theme.overrides((
+      icon-color: $primary,
+      ripple-color: color-mix(in srgb, $primary 12%, transparent),
+      state-layer-color: $primary
+    ));
   }
 
-  .mat-accent {
-    @include _color-variant-styles($theme, tertiary);
+  .mat-badge {
+    @include badge-theme.overrides((
+      background-color: $primary,
+      text-color: $on-primary,
+      disabled-state-background-color: color-mix(in srgb, $primary 38%, transparent),
+      disabled-state-text-color: $on-primary
+    ))
   }
+  
+  $tertiary: map.get($color-tokens, tertiary);
+  $on-tertiary: map.get($color-tokens, on-tertiary);
+  $tertiary-container: map.get($color-tokens, tertiary-container);
+  $on-tertiary-container: map.get($color-tokens, on-tertiary-container);
+
+  .mat-accent {
+    @include core-theme.overrides((
+      option-selected-state-label-text-color: $on-tertiary-container,
+      option-selected-state-layer-color: $tertiary-container,
+      pseudo-checkbox-full-selected-icon-color: $tertiary,
+      pseudo-checkbox-full-selected-checkmark-color: $on-tertiary,
+      pseudo-checkbox-minimal-selected-checkmark-color: $tertiary,
+    ));
+    @include progress-spinner-theme.overrides((
+      active-indicator-color: $tertiary
+    ));
+
+    @include stepper-theme.overrides((
+      header-selected-state-icon-background-color: $tertiary,
+      header-selected-state-icon-foreground-color: $on-tertiary,
+      header-done-state-icon-background-color: $tertiary,
+      header-done-state-icon-foreground-color: $on-tertiary,
+      header-edit-state-icon-background-color: $tertiary,
+      header-edit-state-icon-foreground-color: $on-tertiary
+    ));
+
+    @include icon-theme.overrides((
+      color: $tertiary
+    ));
+
+    @include checkbox-theme.overrides((
+      selected-checkmark-color: $on-tertiary,
+      selected-focus-icon-color: $tertiary,
+      selected-hover-icon-color: $tertiary,
+      selected-icon-color: $tertiary,
+      selected-pressed-icon-color: $tertiary,
+      selected-focus-state-layer-color: $tertiary,
+      selected-hover-state-layer-color: $tertiary,
+      unselected-pressed-state-layer-color: $tertiary
+    ));
+
+    @include slider-theme.overrides((
+      active-track-color: $tertiary,
+      focus-handle-color: $tertiary,
+      focus-state-layer-color: color-mix(in srgb, $tertiary 20%, transparent),
+      handle-color: $tertiary,
+      hover-handle-color: $tertiary,
+      hover-state-layer-color: color-mix(in srgb, $tertiary 5%, transparent),
+      ripple-color: $tertiary,
+      with-overlap-handle-outline-color: $on-tertiary,
+      with-tick-marks-active-container-color: $on-tertiary,
+      label-container-color: $tertiary,
+      label-label-text-color: $on-tertiary,
+    ));
+
+    @include tabs-theme.overrides((
+      active-focus-indicator-color: $tertiary,
+      active-hover-indicator-color: $tertiary,
+      active-indicator-color: $tertiary
+    ));
+
+    @include slide-toggle-theme.overrides((
+      selected-focus-state-layer-color: $tertiary,
+      selected-handle-color: $on-tertiary,
+      selected-hover-state-layer-color: $tertiary,
+      selected-pressed-state-layer-color: $tertiary,
+      selected-focus-handle-color: $tertiary-container,
+      selected-hover-handle-color: $tertiary-container,
+      selected-pressed-handle-color: $tertiary-container,
+      selected-focus-track-color: $tertiary,
+      selected-hover-track-color: $tertiary,
+      selected-pressed-track-color: $tertiary,
+      selected-track-color: $tertiary,
+      selected-icon-color: $on-tertiary-container,
+    ));
+
+    @include select-theme.overrides((
+      focused-arrow-color: $tertiary
+    ));
+
+    @include radio-theme.overrides((
+      checked-ripple-color: $tertiary,
+      selected-focus-icon-color: $tertiary,
+      selected-hover-icon-color: $tertiary,
+      selected-icon-color: $tertiary,
+      selected-pressed-icon-color: $tertiary
+    ));
+
+    @include progress-bar-theme.overrides((
+      active-indicator-color: $tertiary,
+      track-color: $tertiary-container
+    ));
+
+    @include form-field-theme.overrides((
+      focus-select-arrow-color: $tertiary,
+      filled-caret-color: $tertiary,
+      filled-focus-active-indicator-color: $tertiary,
+      filled-focus-label-text-color: $tertiary,
+      outlined-caret-color: $tertiary,
+      outlined-focus-outline-color: $tertiary,
+      outlined-focus-label-text-color: $tertiary,
+    ));
+
+    @include datepicker-theme.overrides((
+      calendar-date-selected-state-text-color: $on-tertiary,
+      calendar-date-selected-state-background-color: $tertiary,
+      calendar-date-in-range-state-background-color: $tertiary-container,
+      calendar-date-in-comparison-range-state-background-color: $primary-container,
+      calendar-date-today-outline-color: $tertiary,
+      calendar-date-today-selected-state-outline-color: $tertiary,
+      calendar-date-preview-state-outline-color: $tertiary,
+    ));
+
+    @include button-theme.overrides((
+      filled-container-color: $tertiary,
+      filled-label-text-color: $on-tertiary,
+      filled-ripple-color: color-mix(in srgb, $on-tertiary 12%, transparent),
+      filled-state-layer-color: $on-tertiary,
+      outlined-label-text-color: $tertiary,
+      outlined-ripple-color: color-mix(in srgb, $tertiary 12%, transparent),
+      outlined-state-layer-color: $tertiary,
+      protected-label-text-color: $tertiary,
+      protected-ripple-color: color-mix(in srgb, $tertiary 12%, transparent),
+      protected-state-layer-color: $tertiary,
+      text-label-text-color: $tertiary,
+      text-ripple-color: color-mix(in srgb, $tertiary 12%, transparent),
+      text-state-layer-color: $tertiary,
+      tonal-container-color: $tertiary-container,
+      tonal-label-text-color: $on-tertiary-container,
+      tonal-ripple-color: color-mix(in srgb, $on-tertiary-container 12%, transparent),
+      tonal-state-layer-color: $on-tertiary-container,
+    ));
+
+    @include icon-button-theme.overrides((
+      icon-color: $tertiary,
+      ripple-color: color-mix(in srgb, $tertiary 12%, transparent),
+      state-layer-color: $tertiary,
+    ));
+
+    @include chips-theme.overrides((
+      selected-trailing-action-state-layer-color: $on-tertiary-container,
+      elevated-selected-container-color: $tertiary-container,
+      selected-focus-state-layer-color: $on-tertiary-container,
+      selected-hover-state-layer-color: $on-tertiary-container,
+      selected-label-text-color: $on-tertiary-container,
+      selected-trailing-icon-color: $on-tertiary-container,
+      with-icon-selected-icon-color: $on-tertiary-container
+    ));
+
+    .mdc-list-item__start,
+    .mdc-list-item__end {
+      @include checkbox-theme.overrides((
+        selected-checkmark-color: $on-tertiary,
+        selected-focus-icon-color: $tertiary,
+        selected-hover-icon-color: $tertiary,
+        selected-icon-color: $tertiary,
+        selected-pressed-icon-color: $tertiary,
+        selected-focus-state-layer-color: $tertiary,
+        selected-hover-state-layer-color: $tertiary,
+        unselected-pressed-state-layer-color: $tertiary,
+      ));
+      @include radio-theme.overrides((
+        checked-ripple-color: $tertiary,
+        selected-focus-icon-color: $tertiary,
+        selected-hover-icon-color: $tertiary,
+        selected-icon-color: $tertiary,
+        selected-pressed-icon-color: $tertiary
+      ));
+    }
+
+    @include fab-theme.overrides((
+      container-color: $tertiary-container,
+      foreground-color: $on-tertiary-container,
+      ripple-color: color-mix(in srgb, $on-tertiary-container 12%, transparent),
+      small-container-color: $tertiary-container,
+      small-foreground-color: $on-tertiary-container,
+      small-ripple-color: color-mix(in srgb, $on-tertiary-container 12%, transparent),
+      small-state-layer-color: $on-tertiary-container,
+      state-layer-color: $on-tertiary-container,
+    ));
+  }
+  
   .mat-badge-accent {
-    @include badge-theme.color($theme, $color-variant: tertiary,
-      $emit-overrides-only: $_overrides-only);
+    @include badge-theme.overrides((
+      background-color: $tertiary,
+      text-color: $on-tertiary,
+      disabled-state-background-color: color-mix(in srgb, $tertiary 38%, transparent),
+      disabled-state-text-color: $on-tertiary
+    ));
   }
 
   .mat-warn {
-    @include _color-variant-styles($theme, error);
-  }
-  .mat-badge-warn {
-    @include badge-theme.color($theme, $color-variant: error,
-      $emit-overrides-only: $_overrides-only);
+    $error: map.get($color-tokens, error);
+    $on-error: map.get($color-tokens, on-error);
+    $error-container: map.get($color-tokens, error-container);
+    $on-error-container: map.get($color-tokens, on-error-container);
+    
+    @include core-theme.overrides((
+      option-selected-state-label-text-color: $on-error-container,
+      option-selected-state-layer-color: $error-container,
+      pseudo-checkbox-full-selected-icon-color: $error,
+      pseudo-checkbox-full-selected-checkmark-color: $on-error,
+      pseudo-checkbox-minimal-selected-checkmark-color: $error
+    ));
+
+    @include progress-spinner-theme.overrides((
+      active-indicator-color: $error
+    ));
+
+    @include stepper-theme.overrides((
+      header-selected-state-icon-background-color: $error,
+      header-selected-state-icon-foreground-color: $on-error,
+      header-done-state-icon-background-color: $error,
+      header-done-state-icon-foreground-color: $on-error,
+      header-edit-state-icon-background-color: $error,
+      header-edit-state-icon-foreground-color: $on-error,
+    ));
+
+    @include icon-theme.overrides((
+      color: $error
+    ));
+
+    @include checkbox-theme.overrides((
+      selected-checkmark-color: $on-error,
+      selected-focus-icon-color: $error,
+      selected-hover-icon-color: $error,
+      selected-icon-color: $error,
+      selected-pressed-icon-color: $error,
+      selected-focus-state-layer-color: $error,
+      selected-hover-state-layer-color: $error,
+      unselected-pressed-state-layer-color: $error,
+    ));
+
+    @include slider-theme.overrides((
+      active-track-color: $error,
+      focus-handle-color: $error,
+      focus-state-layer-color: color-mix(in srgb, $error 20%, transparent),
+      handle-color: $error,
+      hover-handle-color: $error,
+      hover-state-layer-color: color-mix(in srgb, $error 5%, transparent),
+      ripple-color: $error,
+      with-overlap-handle-outline-color: $on-error,
+      with-tick-marks-active-container-color: $on-error,
+      label-container-color: $error,
+      label-label-text-color: $on-error,
+    ));
+
+    @include tabs-theme.overrides((
+      active-focus-indicator-color: $error,
+      active-hover-indicator-color: $error,
+      active-indicator-color: $error,
+    ));
+
+    @include slide-toggle-theme.overrides((
+      selected-focus-state-layer-color: $error,
+      selected-handle-color: $on-error,
+      selected-hover-state-layer-color: $error,
+      selected-pressed-state-layer-color: $error,
+      selected-focus-handle-color: $error-container,
+      selected-hover-handle-color: $error-container,
+      selected-pressed-handle-color: $error-container,
+      selected-focus-track-color: $error,
+      selected-hover-track-color: $error,
+      selected-pressed-track-color: $error,
+      selected-track-color: $error,
+      selected-icon-color: $on-error-container,
+    ));
+
+    @include select-theme.overrides((
+      focused-arrow-color: $error
+    ));
+
+    @include radio-theme.overrides((
+      checked-ripple-color: $error,
+      selected-focus-icon-color: $error,
+      selected-hover-icon-color: $error,
+      selected-icon-color: $error,
+      selected-pressed-icon-color: $error,
+    ));
+
+    @include progress-bar-theme.overrides((
+      active-indicator-color: $error,
+      track-color: $error-container
+    ));
+
+    @include form-field-theme.overrides((
+      focus-select-arrow-color: $error,
+      filled-caret-color: $error,
+      filled-focus-active-indicator-color: $error,
+      filled-focus-label-text-color: $error,
+      outlined-caret-color: $error,
+      outlined-focus-outline-color: $error,
+      outlined-focus-label-text-color: $error,
+    ));
+
+    @include datepicker-theme.overrides((
+      calendar-date-selected-state-text-color: $on-error,
+      calendar-date-selected-state-background-color: $error,
+      calendar-date-in-range-state-background-color: $error-container,
+      calendar-date-today-outline-color: $error,
+      calendar-date-today-selected-state-outline-color: $error,
+      calendar-date-preview-state-outline-color: $error,
+    ));
+
+    @include button-theme.overrides((
+      filled-container-color: $error,
+      filled-label-text-color: $on-error,
+      filled-ripple-color: color-mix(in srgb, $on-error 12%, transparent),
+      filled-state-layer-color: $on-error,
+      outlined-label-text-color: $error,
+      outlined-ripple-color: color-mix(in srgb, $error 12%, transparent),
+      outlined-state-layer-color: $error,
+      protected-label-text-color: $error,
+      protected-ripple-color: color-mix(in srgb, $error 12%, transparent),
+      protected-state-layer-color: $error,
+      text-label-text-color: $error,
+      text-ripple-color: color-mix(in srgb, $error 12%, transparent),
+      text-state-layer-color: $error,
+      tonal-container-color: $error-container,
+      tonal-label-text-color: $on-error-container,
+      tonal-ripple-color: color-mix(in srgb, $on-error-container 12%, transparent),
+      tonal-state-layer-color: $on-error-container,
+    ));
+
+    @include icon-button-theme.overrides((
+      icon-color: $error,
+      ripple-color: color-mix(in srgb, $error 12%, transparent),
+      state-layer-color: $error
+    ));
+
+    @include chips-theme.overrides((
+      selected-trailing-action-state-layer-color: $on-error-container,
+      elevated-selected-container-color: $error-container,
+      selected-focus-state-layer-color: $on-error-container,
+      selected-hover-state-layer-color: $on-error-container,
+      selected-label-text-color: $on-error-container,
+      selected-trailing-icon-color: $on-error-container,
+      with-icon-selected-icon-color: $on-error-container,
+    ));
+
+    .mdc-list-item__start,.mdc-list-item__end {
+      @include checkbox-theme.overrides((
+        selected-checkmark-color: $on-error,
+        selected-focus-icon-color: $error,
+        selected-hover-icon-color: $error,
+        selected-icon-color: $error,
+        selected-pressed-icon-color: $error,
+        selected-focus-state-layer-color: $error,
+        selected-hover-state-layer-color: $error,
+        unselected-pressed-state-layer-color: $error,
+      ));
+      @include radio-theme.overrides((
+        checked-ripple-color: $error,
+        selected-focus-icon-color: $error,
+        selected-hover-icon-color: $error,
+        selected-icon-color: $error,
+        selected-pressed-icon-color: $error,
+      ));
+    }
+
   }
 }

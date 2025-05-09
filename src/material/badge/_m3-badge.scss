@@ -46,36 +46,5 @@ $prefix: (mat, badge);
     legacy-large-size-container-size: m3-utils.hardcode(unset, $exclude-hardcoded),
   );
 
-  $variant-tokens: (
-    primary: (
-      background-color: map.get($systems, md-sys-color, primary),
-      text-color: map.get($systems, md-sys-color, on-primary),
-      disabled-state-background-color: sass-utils.safe-color-change(
-        map.get($systems, md-sys-color, primary),
-        $alpha: 0.38,
-      ),
-      disabled-state-text-color: map.get($systems, md-sys-color, on-primary),
-    ),
-    secondary: (
-      background-color: map.get($systems, md-sys-color, secondary),
-      text-color: map.get($systems, md-sys-color, on-secondary),
-      disabled-state-background-color: sass-utils.safe-color-change(
-        map.get($systems, md-sys-color, secondary),
-        $alpha: 0.38,
-      ),
-      disabled-state-text-color: map.get($systems, md-sys-color, on-secondary),
-    ),
-    tertiary: (
-      background-color: map.get($systems, md-sys-color, tertiary),
-      text-color: map.get($systems, md-sys-color, on-tertiary),
-      disabled-state-background-color: sass-utils.safe-color-change(
-        map.get($systems, md-sys-color, tertiary),
-        $alpha: 0.38,
-      ),
-      disabled-state-text-color: map.get($systems, md-sys-color, on-tertiary),
-    ),
-    error: () // Default, no overrides needed
-  );
-
-  @return m3-utils.namespace($prefix, ($tokens, $variant-tokens), $token-slots);
+  @return m3-utils.namespace($prefix, $tokens, $token-slots);
 }
