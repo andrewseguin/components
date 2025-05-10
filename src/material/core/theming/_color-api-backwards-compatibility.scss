@@ -24,13 +24,12 @@
 $_overrides-only: true;
 
 @mixin _color-variant-styles($theme, $color-variant) {
-  $primary-options: (color-variant: $color-variant, emit-overrides-only: $_overrides-only);
+  $primary-options: (color-variant: $color-variant);
 
   // Some components use the secondary color rather than primary color for `.mat-primary`.
   // Those components should use the $secondary-color-variant.
   $secondary-options: (
     color-variant: if($color-variant == primary, secondary, $color-variant),
-    emit-overrides-only: $_overrides-only
   );
 
   & {
@@ -119,23 +118,20 @@ $_overrides-only: true;
     @include _color-variant-styles($theme, primary);
   }
   .mat-badge {
-    @include badge-theme.color($theme, $color-variant: primary,
-      $emit-overrides-only: $_overrides-only);
+    @include badge-theme.color($theme, $color-variant: primary);
   }
 
   .mat-accent {
     @include _color-variant-styles($theme, tertiary);
   }
   .mat-badge-accent {
-    @include badge-theme.color($theme, $color-variant: tertiary,
-      $emit-overrides-only: $_overrides-only);
+    @include badge-theme.color($theme, $color-variant: tertiary);
   }
 
   .mat-warn {
     @include _color-variant-styles($theme, error);
   }
   .mat-badge-warn {
-    @include badge-theme.color($theme, $color-variant: error,
-      $emit-overrides-only: $_overrides-only);
+    @include badge-theme.color($theme, $color-variant: error);
   }
 }

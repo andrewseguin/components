@@ -64,9 +64,40 @@
       $color: map.set($color, theme-type, color-scheme);
     }
 
-    $color-config: if($is-palette,
-            definition.define-colors((primary: $color, theme-type: color-scheme)),
-            definition.define-colors($color));
+    $color-config: $color;
+    @if ($is-palette) {
+      $color: map.set($color, tertiary, $color);
+      $color-config: (
+        _mat-theming-internals-do-not-access: (
+          palettes: (
+            primary: map.remove($color, neutral, neutral-variant, secondary),
+            secondary: map.get($color, secondary),
+            tertiary: map.remove($color, neutral, neutral-variant, secondary, error),
+            neutral: map.get($color, neutral),
+            neutral-variant: map.get($color, neutral-variant),
+            error: map.get($color, error),
+          ),
+          theme-type: color-scheme,
+        )
+      )
+    } @else {
+      $primary: map.get($color, primary);
+      $tertiary: map.get($color, tertiary);
+      $color-config: (
+        _mat-theming-internals-do-not-access: (
+          palettes: (
+            primary: map.remove($primary, neutral, neutral-variant, secondary),
+            secondary: map.get($primary, secondary),
+            tertiary: map.remove($tertiary, neutral, neutral-variant, secondary, error),
+            neutral: map.get($primary, neutral),
+            neutral-variant: map.get($primary, neutral-variant),
+            error: map.get($primary, error),
+          ),
+          theme-type: map.get($color, theme-type),
+        )
+      )
+    }
+
     @include system-level-colors($color-config, $overrides, definition.$system-fallback-prefix);
     @include system-level-elevation($color-config, $overrides, definition.$system-fallback-prefix);
   }
@@ -74,9 +105,31 @@
   $typography: map.get($config, typography);
   $typography-config: null;
   @if ($typography) {
-    $typography-config: if(meta.type-of($typography) == 'map',
-      definition.define-typography($typography),
-      definition.define-typography((plain-family: $typography)));
+    $plain: (Roboto, sans-serif);
+    $brand: $plain;
+    $bold: 700;
+    $medium: 500;
+    $regular: 400;
+    @if (meta.type-of($typography) == map) {
+      $plain: map.get($typography, plain-family);
+      $brand: map.get($typography, brand-family) or $plain;
+      $bold: map.get($typography, bold-weight) or $bold;
+      $medium: map.get($typography, medium-weight) or $medium;
+      $regular: map.get($typography, regular-weight) or $regular;
+    } @else {
+      $plain: $typography;
+    }
+    $typography-config: (
+      _mat-theming-internals-do-not-access: (
+        font-definition: (
+          plain: $plain,
+          brand: $brand,
+          bold: $bold,
+          medium: $medium,
+          regular: $regular,
+        )
+      )
+    );
     @include system-level-typography(
         $typography-config, $overrides, definition.$system-fallback-prefix);
   }
@@ -84,10 +137,12 @@
   $density: map.get($config, density);
   $density-config: null;
   @if ($density) {
-    $density-config: if(meta.type-of($density) == 'map',
-      definition.define-density($density),
-      definition.define-density((scale: $density)));
-    $scale: map.get($density-config, _mat-theming-internals-do-not-access, density-scale);
+    $scale: 0;
+    @if (meta.type-of($density) == map) {
+      $scale: map.get($density, scale);
+    } @else {
+      $scale: $density;
+    }
     @if ($scale != 0) {
       // Emit component-level density tokens if the scale is lower than 0. The density tokens
       // do not fallback to any system-level values and must be defined if the scale is different.
@@ -217,7 +272,7 @@
 
 @mixin system-level-elevation($theme, $overrides: (), $prefix: definition.$system-level-prefix) {
   $shadow-color: map.get(
-      $theme, _mat-theming-internals-do-not-access, color-tokens, (mat, theme), shadow);
+      $theme, _mat-theming-internals-do-not-access, palettes, neutral, 0);
 
   @each $name, $value in m3.md-sys-elevation-values() {
     $level: map.get($overrides, $name) or $value;
@@ -255,39 +310,33 @@
   @return $new-map;
 }
 
+$palettes: m3.md-sys-color-values-light(palettes.$blue-palette);
+$palettes: map.set($palettes, primary, palettes.$blue-palette);
+$app-vars: (
+  'md-sys-color': _create-system-app-vars-map(m3.md-sys-color-values-light($palettes)),
+  'md-sys-typescale': _create-system-app-vars-map(m3.md-sys-typescale-values((
+    brand: (Roboto),
+    plain: (Roboto),
+    bold: 700,
+    medium: 500,
+    regular: 400
+  ))),
+  'md-sys-elevation': _create-system-app-vars-map(m3.md-sys-elevation-values()),
+  'md-sys-state': _create-system-app-vars-map(m3.md-sys-state-values()),
+  'md-sys-shape': _create-system-app-vars-map(m3.md-sys-shape-values()),
+  // Add a subset of palette-specific colors used by components instead of system values
+  'md-ref-palette': _create-system-app-vars-map(
+      (
+        neutral10: '', // Form field native select option text color
+        neutral-variant20: '', // Sidenav scrim (container background shadow when opened),
+      )
+  ),
+);
+
 // Create a components tokens map where values are based on
 // system fallback variables referencing Material's system keys.
 // Includes density token fallbacks where density is 0.
 @function create-system-fallbacks() {
-  $palettes: m3.md-sys-color-values-light(palettes.$blue-palette);
-  $palettes: map.set($palettes, primary, palettes.$blue-palette);
-  $app-vars: (
-    'md-sys-color':
-        _create-system-app-vars-map(m3.md-sys-color-values-light($palettes)),
-    'md-sys-typescale':
-        _create-system-app-vars-map(m3.md-sys-typescale-values((
-          brand: (Roboto),
-          plain: (Roboto),
-          bold: 700,
-          medium: 500,
-          regular: 400
-        ))),
-    'md-sys-elevation':
-        _create-system-app-vars-map(m3.md-sys-elevation-values()),
-    'md-sys-state':
-        _create-system-app-vars-map(m3.md-sys-state-values()),
-    'md-sys-shape':
-        _create-system-app-vars-map(m3.md-sys-shape-values()),
-    // Add a subset of palette-specific colors used by components instead of system values
-    'md-ref-palette':
-        _create-system-app-vars-map(
-          (
-            neutral10: '', // Form field native select option text color
-            neutral-variant20: '', // Sidenav scrim (container background shadow when opened),
-          )
-        ),
-  );
-
   @return sass-utils.deep-merge-all(
       m3-tokens.generate-tokens($app-vars, true, true),
       get-density-tokens(0),

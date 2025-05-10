@@ -1,8 +1,6 @@
 @use '../../autocomplete/m3-autocomplete';
-@use '../../badge/m3-badge';
 @use '../../bottom-sheet/m3-bottom-sheet';
 @use '../../button-toggle/m3-button-toggle';
-@use '../../button/m3-button';
 @use '../../button/m3-fab';
 @use '../../button/m3-icon-button';
 @use '../../card/m3-card';
@@ -110,7 +108,7 @@ $_cached-token-slots: null;
   @return $result;
 }
 
-@function _get-sys-color($type, $palettes, $prefix) {
+@function get-sys-color($type, $palettes, $prefix) {
   $sys-color: if($type == dark,
     m3.md-sys-color-values-dark($palettes),
     m3.md-sys-color-values-light($palettes));
@@ -127,7 +125,7 @@ $_cached-token-slots: null;
   @return $sys-color;
 }
 
-@function _get-sys-typeface($typography, $prefix) {
+@function get-sys-typeface($typography, $prefix) {
   $sys-typography: m3.md-sys-typescale-values($typography);
   @if (sass-utils.$use-system-typography-variables) {
     $var-values: ();
@@ -148,14 +146,10 @@ $_cached-token-slots: null;
 /// @param {String} $system-variables-prefix The prefix of system tokens
 /// @return {Map} A map of namespaced color tokens
 @function generate-color-tokens($type, $palettes, $system-variables-prefix) {
-  $sys-color: _get-sys-color($type, $palettes, $system-variables-prefix);
+  $sys-color: get-sys-color($type, $palettes, $system-variables-prefix);
 
   @return generate-tokens((
     md-sys-color: $sys-color,
-    md-ref-palette: (
-      neutral-10: map.get($palettes, neutral, 10),
-      neutral-variant20: map.get($palettes, neutral-variant, 20),
-    ),
     // Because the elevation values are always combined with color values to create the box shadow,
     // elevation needs to be part of the color dimension.
     md-sys-elevation: m3.md-sys-elevation-values(),
@@ -176,7 +170,7 @@ $_cached-token-slots: null;
 /// @param {String} $system-variables-prefix The prefix of system tokens
 /// @return {Map} A map of namespaced typography tokens
 @function generate-typography-tokens($typography, $system-variables-prefix) {
-  $sys-typeface: _get-sys-typeface($typography, $system-variables-prefix);
+  $sys-typeface: get-sys-typeface($typography, $system-variables-prefix);
   @return generate-tokens((
     md-sys-typescale: $sys-typeface
   ));
@@ -201,11 +195,7 @@ $_cached-token-slots: null;
 @function get-m3-tokens($systems, $exclude-hardcoded, $token-slots) {
   $tokens-list: (
     m3-app.get-tokens($systems, $exclude-hardcoded, $token-slots),
-    m3-autocomplete.get-tokens($systems, $exclude-hardcoded, $token-slots),
-    m3-badge.get-tokens($systems, $exclude-hardcoded, $token-slots),
-    m3-bottom-sheet.get-tokens($systems, $exclude-hardcoded, $token-slots),
     m3-button-toggle.get-tokens($systems, $exclude-hardcoded, $token-slots),
-    m3-button.get-tokens($systems, $exclude-hardcoded, $token-slots),
     m3-card.get-tokens($systems, $exclude-hardcoded, $token-slots),
     m3-checkbox.get-tokens($systems, $exclude-hardcoded, $token-slots),
     m3-chip.get-tokens($systems, $exclude-hardcoded, $token-slots),
