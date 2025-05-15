@@ -11,7 +11,7 @@ $prefix: (mat, sort);
   @return (
     base: (),
     color: (
-      arrow-color: map.get($system, on-surface),
+      sort-arrow-color: map.get($system, on-surface),
     ),
     typography: (),
     density: (),

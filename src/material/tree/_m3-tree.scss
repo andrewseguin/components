@@ -14,13 +14,13 @@ $prefix: (mat, tree);
   @return (
     base: (),
     color: (
-      container-background-color: map.get($system, surface),
-      node-text-color: map.get($system, on-surface),
+      tree-container-background-color: map.get($system, surface),
+      tree-node-text-color: map.get($system, on-surface),
     ),
     typography: (
-      node-text-font: map.get($system, body-large-font),
-      node-text-size: map.get($system, body-large-size),
-      node-text-weight: map.get($system, body-large-weight),
+      tree-node-text-font: map.get($system, body-large-font),
+      tree-node-text-size: map.get($system, body-large-size),
+      tree-node-text-weight: map.get($system, body-large-weight),
     ),
     density: get-density-tokens(map.get($theme, inspection.$internals, density-scale)),
   );
@@ -32,6 +32,6 @@ $prefix: (mat, tree);
   $index: ($scale * -1) + 1;
 
   @return (
-    node-min-height: list.nth((48px, 44px, 40px, 36px, 28px), $index),
+    tree-node-min-height: list.nth((48px, 44px, 40px, 36px, 28px), $index),
   );
 }

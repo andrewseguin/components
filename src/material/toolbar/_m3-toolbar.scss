@@ -4,9 +4,6 @@
 @use '../core/theming/theming';
 @use '../core/theming/inspection';
 
-// The prefix used to generate the fully qualified name for tokens in this file.
-$prefix: (mat, toolbar);
-
 /// Generates custom tokens for the mat-toolbar.
 /// @param {Map} $systems The MDC system tokens
 /// @param {Boolean} $exclude-hardcoded Whether to exclude hardcoded token values
@@ -18,15 +15,15 @@ $prefix: (mat, toolbar);
   @return (
     base: (),
     color: (
-      container-background-color: map.get($system, surface),
-      container-text-color: map.get($system, on-surface),
+      toolbar-container-background-color: map.get($system, surface),
+      toolbar-container-text-color: map.get($system, on-surface),
     ),
     typography: (
-      title-text-font: map.get($system, title-large-font),
-      title-text-line-height: map.get($system, title-large-line-height),
-      title-text-size: map.get($system, title-large-size),
-      title-text-tracking: map.get($system, title-large-tracking),
-      title-text-weight: map.get($system, title-large-weight),
+      toolbar-title-text-font: map.get($system, title-large-font),
+      toolbar-title-text-line-height: map.get($system, title-large-line-height),
+      toolbar-title-text-size: map.get($system, title-large-size),
+      toolbar-title-text-tracking: map.get($system, title-large-tracking),
+      toolbar-title-text-weight: map.get($system, title-large-weight),
     ),
     density: get-density-tokens(map.get($theme, inspection.$internals, density-scale)),
   );
@@ -38,7 +35,7 @@ $prefix: (mat, toolbar);
   $index: ($scale * -1) + 1;
 
   @return (
-    standard-height: list.nth((64px, 60px, 56px, 52px), $index),
-    mobile-height: list.nth((56px, 52px, 48px, 44px), $index),
+    toolbar-standard-height: list.nth((64px, 60px, 56px, 52px), $index),
+    toolbar-mobile-height: list.nth((56px, 52px, 48px, 44px), $index),
   );
 }

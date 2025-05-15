@@ -2,9 +2,6 @@
 @use '../core/style/elevation';
 @use '../core/tokens/m3-utils';
 
-// The prefix used to generate the fully qualified name for tokens in this file.
-$prefix: (mat, autocomplete);
-
 /// Generates custom tokens for the mat-autocomplete.
 /// @param {Map} $systems The MDC system tokens
 /// @param {Boolean} $exclude-hardcoded Whether to exclude hardcoded token values
@@ -14,11 +11,11 @@ $prefix: (mat, autocomplete);
   $system: m3-utils.get-system($theme);
   $tokens: (
     base: (
-      container-shape: map.get($system, corner-extra-small),
-      container-elevation-shadow: elevation.get-box-shadow(2),
+      autocomplete-container-shape: map.get($system, corner-extra-small),
+      autocomplete-container-elevation-shadow: elevation.get-box-shadow(2),
     ),
     color: (
-      background-color: map.get($system, surface-container),
+      autocomplete-background-color: map.get($system, surface-container),
     ),
     typography: (),
     density: (),
