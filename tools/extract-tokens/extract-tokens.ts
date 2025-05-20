@@ -222,7 +222,6 @@ function getTokenExtractionCode(
 
     // The 'generate-*' functions don't have the ability to enable
     // system tokens so we have to do it by setting a variable.
-    ${sassUtils}.$use-system-color-variables: true;
     ${sassUtils}.$use-system-typography-variables: true;
   `;
 
@@ -231,7 +230,7 @@ function getTokenExtractionCode(
       @error 'File must define a ${defineOverrides} function for docs extraction purposes';
     }
 
-    $__all-color: ${m3Tokens}.generate-color-tokens(light, ${palettes}.$azure-palette, 'mat-sys');
+    $__all-color: ${m3Tokens}.generate-color-tokens(light, ${palettes}.$azure-palette, 'mat-sys', true);
     $__all-typography: ${m3Tokens}.generate-typography-tokens((
         plain: (font), brand: (font), bold: 100, medium: 100, regular: 100), 'mat-sys');
     $__all-density: ${m3System}.get-density-tokens(0);

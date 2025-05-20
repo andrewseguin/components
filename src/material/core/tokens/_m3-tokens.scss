@@ -38,12 +38,12 @@
   @return $result;
 }
 
-@function get-sys-color($type, $palettes, $prefix) {
+@function get-sys-color($type, $palettes, $prefix, $use-system-color-variables) {
   $sys-color: if($type == dark,
     m3.md-sys-color-values-dark($palettes),
     m3.md-sys-color-values-light($palettes));
 
-  @if (sass-utils.$use-system-color-variables) {
+  @if ($use-system-color-variables) {
     $var-values: ();
     @each $key in map.keys($sys-color) {
       $var-values: map.set($var-values, $key, var(--#{$prefix}-#{$key}));
@@ -55,9 +55,9 @@
   @return $sys-color;
 }
 
-@function get-sys-typeface($typography, $prefix) {
+@function get-sys-typeface($typography, $prefix, $use-system-typography-variables) {
   $sys-typography: m3.md-sys-typescale-values($typography);
-  @if (sass-utils.$use-system-typography-variables) {
+  @if ($use-system-typography-variables) {
     $var-values: ();
     @each $key in map.keys($sys-typography) {
       $var-values: map.set($var-values, $key, var(--#{$prefix}-#{$key}));
@@ -75,8 +75,10 @@
 /// @param {Map} $error The error palette
 /// @param {String} $system-variables-prefix The prefix of system tokens
 /// @return {Map} A map of namespaced color tokens
-@function generate-color-tokens($type, $palettes, $system-variables-prefix) {
-  $sys-color: get-sys-color($type, $palettes, $system-variables-prefix);
+@function generate-color-tokens($type, $palettes, $system-variables-prefix,
+    $use-system-color-variables) {
+  $sys-color: get-sys-color(
+      $type, $palettes, $system-variables-prefix, $use-system-color-variables);
 
   @return generate-tokens((
     md-sys-color: $sys-color,
@@ -103,8 +105,10 @@
 /// @param {String|Number} $regular The regular font-weight
 /// @param {String} $system-variables-prefix The prefix of system tokens
 /// @return {Map} A map of namespaced typography tokens
-@function generate-typography-tokens($typography, $system-variables-prefix) {
-  $sys-typeface: get-sys-typeface($typography, $system-variables-prefix);
+@function generate-typography-tokens($typography, $system-variables-prefix,
+    $use-system-typography-variables) {
+  $sys-typeface: get-sys-typeface(
+      $typography, $system-variables-prefix, $use-system-typography-variables);
   @return generate-tokens((
     md-sys-typescale: $sys-typeface
   ));

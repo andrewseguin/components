@@ -3,9 +3,6 @@
 @use 'sass:map';
 @use 'sass:meta';
 
-/// Whether our theming API is using --sys- variables for color tokens.
-$use-system-color-variables: false;
-
 /// Whether our theming API is using --sys- variables for typography tokens.
 $use-system-typography-variables: false;
 
@@ -54,13 +51,10 @@ $use-system-typography-variables: false;
 /// A version of the Sass `color.change` function that is safe ot use with CSS variables.
 @function safe-color-change($color, $args...) {
   $args: meta.keywords($args);
-  $use-color-mix: $use-system-color-variables or
-      (is-css-var-name($color) and string.index($color, '--mat') == 1);
   @if (meta.type-of($color) == 'color') {
     @return color.change($color, $args...);
   }
-  @else if ($color != null and
-      map.get($args, alpha) != null and $use-color-mix) {
+  @else if ($color != null and map.get($args, alpha) != null) {
     $opacity: map.get($args, alpha);
     @if meta.type-of($opacity) == number {
       $opacity: ($opacity * 100) + '%';
