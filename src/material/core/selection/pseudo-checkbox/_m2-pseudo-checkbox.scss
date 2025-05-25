@@ -16,7 +16,7 @@
     pseudo-checkbox-full-selected-icon-color: inspection.get-theme-color($theme, $palette-name),
     pseudo-checkbox-full-selected-checkmark-color: $checkmark-color,
     pseudo-checkbox-full-unselected-icon-color:
-        inspection.get-theme-color($theme, foreground, secondary-text),
+        inspection.get-theme-color($theme, foreground, base, 0.54),
     pseudo-checkbox-full-disabled-selected-checkmark-color: $checkmark-color,
     pseudo-checkbox-full-disabled-unselected-icon-color: $disabled-color,
     pseudo-checkbox-full-disabled-selected-icon-color: $disabled-color,

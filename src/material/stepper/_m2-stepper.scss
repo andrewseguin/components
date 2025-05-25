@@ -18,14 +18,14 @@
     stepper-line-color: inspection.get-theme-color($theme, system, outline),
     stepper-header-hover-state-layer-color: inspection.get-theme-color($theme, background, hover),
     stepper-header-focus-state-layer-color: inspection.get-theme-color($theme, background, hover),
-    stepper-header-label-text-color: inspection.get-theme-color($theme, foreground, secondary-text),
-    stepper-header-optional-label-text-color: inspection.get-theme-color(
-        $theme, foreground, secondary-text),
+    stepper-header-label-text-color: inspection.get-theme-color($theme, foreground, base, 0.54),
+    stepper-header-optional-label-text-color:
+        inspection.get-theme-color($theme, foreground, base, 0.54),
     stepper-header-selected-state-label-text-color:
         inspection.get-theme-color($theme, system, on-surface),
     stepper-header-error-state-label-text-color: inspection.get-theme-color($theme, warn, text),
     stepper-header-icon-background-color:
-        inspection.get-theme-color($theme, foreground, secondary-text),
+        inspection.get-theme-color($theme, foreground, base, 0.54),
     stepper-header-error-state-icon-foreground-color:
         inspection.get-theme-color($theme, warn, text),
     stepper-header-error-state-icon-background-color: transparent,

@@ -21,12 +21,12 @@
     expansion-header-hover-state-layer-color: inspection.get-theme-color($theme, background, hover),
     expansion-header-focus-state-layer-color: inspection.get-theme-color($theme, background, hover),
     expansion-header-disabled-state-text-color: inspection.get-theme-color(
-        $theme, foreground, disabled-button),
+        $theme, foreground, base, 0.26),
     expansion-header-text-color: inspection.get-theme-color($theme, system, on-surface),
     expansion-header-description-color:
-        inspection.get-theme-color($theme, foreground, secondary-text),
+        inspection.get-theme-color($theme, foreground, base, 0.54),
     expansion-header-indicator-color:
-        inspection.get-theme-color($theme, foreground, secondary-text),
+        inspection.get-theme-color($theme, foreground, base, 0.54),
   );
 }
 

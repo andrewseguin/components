@@ -25,7 +25,7 @@
 
   @return (
     radio-checked-ripple-color: inspection.get-theme-color($theme, $palette-name, default),
-    radio-disabled-label-color: inspection.get-theme-color($theme, foreground, disabled-text),
+    radio-disabled-label-color: inspection.get-theme-color($theme, foreground, base, 0.38),
     radio-disabled-selected-icon-color: inspection.get-theme-color($theme, foreground, base),
     radio-disabled-unselected-icon-color: inspection.get-theme-color($theme, foreground, base),
     radio-label-text-color: inspection.get-theme-color($theme, system, on-surface),

@@ -31,7 +31,7 @@
   $ripple-color: inspection.get-theme-color($theme, $palette-name, default);
 
   $tokens: (
-    tab-disabled-ripple-color: inspection.get-theme-color($theme, foreground, disabled),
+    tab-disabled-ripple-color: inspection.get-theme-color($theme, foreground, base, 0.38),
     tab-pagination-icon-color: inspection.get-theme-color($theme, foreground, base),
 
     // Note: MDC has equivalents of these tokens, but they lead to much higher selector specificity.

@@ -31,8 +31,8 @@
   $is-dark: inspection.get-theme-type($theme) == dark;
   $foreground-base: inspection.get-theme-color($theme, foreground, base);
   $foreground-text: map.get($system, on-surface);
-  $foreground-secondary-text: inspection.get-theme-color($theme, foreground, secondary-text);
-  $foreground-hint-text: inspection.get-theme-color($theme, foreground, hint-text);
+  $foreground-secondary-text: inspection.get-theme-color($theme, foreground, base, 0.54);
+  $foreground-hint-text: inspection.get-theme-color($theme, foreground, base, 0.38);
   $text-icon-on-background:
       inspection.get-theme-color($theme, foreground, base, if($is-dark, 0.5, 0.38));
 

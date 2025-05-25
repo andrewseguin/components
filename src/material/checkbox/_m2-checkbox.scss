@@ -37,7 +37,7 @@
     inspection.get-theme-color($theme, $palette-name, default-contrast);
 
   $tokens: (
-    checkbox-disabled-label-color: inspection.get-theme-color($theme, foreground, disabled-text),
+    checkbox-disabled-label-color: inspection.get-theme-color($theme, foreground, base, 0.38),
     checkbox-label-text-color: map.get($system, on-surface),
     checkbox-disabled-selected-icon-color: $disabled-color,
     checkbox-disabled-unselected-icon-color: $disabled-color,

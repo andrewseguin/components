@@ -37,11 +37,11 @@ $private-default-overlap-color: #a8dab5;
 
 // Tokens that can be configured through Angular Material's color theming API.
 @function get-color-tokens($theme) {
-  $inactive-icon-color: inspection.get-theme-color($theme, foreground, icon);
+  $inactive-icon-color: inspection.get-theme-color($theme, foreground, base, 0.54);
   $text-color: inspection.get-theme-color($theme, system, on-surface);
-  $secondary-text-color: inspection.get-theme-color($theme, foreground, secondary-text);
-  $disabled-text-color: inspection.get-theme-color($theme, foreground, disabled-text);
-  $hint-text-color: inspection.get-theme-color($theme, foreground, hint-text);
+  $secondary-text-color: inspection.get-theme-color($theme, foreground, base, 0.54);
+  $disabled-text-color: inspection.get-theme-color($theme, foreground, base, 0.38);
+  $hint-text-color: inspection.get-theme-color($theme, foreground, base, 0.38);
   $preview-outline-color: inspection.get-theme-color($theme, system, outline);
   $today-disabled-outline-color: null;
   $is-dark: inspection.get-theme-type($theme) == dark;
@@ -147,7 +147,7 @@ $private-default-overlap-color: #a8dab5;
     $active-disabled-color: color.adjust($palette-color, $alpha: -$_selected-fade-amount);
   }
   @else {
-    $active-disabled-color: inspection.get-theme-color($theme, foreground, disabled-button);
+    $active-disabled-color: inspection.get-theme-color($theme, foreground, base, 0.26);
   }
 
   @return (

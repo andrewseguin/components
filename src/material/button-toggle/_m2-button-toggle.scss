@@ -28,21 +28,21 @@
     button-toggle-disabled-state-background-color:
         inspection.get-theme-color($theme, system, surface),
     button-toggle-disabled-state-text-color:
-        inspection.get-theme-color($theme, foreground, disabled-button),
+        inspection.get-theme-color($theme, foreground, base, 0.26),
     button-toggle-divider-color: inspection.get-theme-color($theme, system, outline),
     button-toggle-legacy-disabled-selected-state-background-color:
         inspection.get-theme-color($theme, background, selected-disabled-button),
     button-toggle-legacy-disabled-state-background-color:
         inspection.get-theme-color($theme, background, disabled-button-toggle),
     button-toggle-legacy-disabled-state-text-color:
-        inspection.get-theme-color($theme, foreground, disabled-button),
+        inspection.get-theme-color($theme, foreground, base, 0.26),
     button-toggle-legacy-selected-state-background-color:
         inspection.get-theme-color($theme, background, selected-button),
     button-toggle-legacy-selected-state-text-color:
-        inspection.get-theme-color($theme, foreground, secondary-text),
+        inspection.get-theme-color($theme, foreground, base, 0.54),
     button-toggle-legacy-state-layer-color:
         inspection.get-theme-color($theme, background, focused-button),
-    button-toggle-legacy-text-color: inspection.get-theme-color($theme, foreground, hint-text),
+    button-toggle-legacy-text-color: inspection.get-theme-color($theme, foreground, base, 0.38),
     button-toggle-selected-state-background-color:
         inspection.get-theme-color($theme, background, selected-button),
     button-toggle-selected-state-text-color: inspection.get-theme-color($theme, system, on-surface),
