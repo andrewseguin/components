@@ -16,31 +16,31 @@
 @function get-color-tokens($theme) {
   $system: m2-utils.get-system($theme);
   $is-dark: inspection.get-theme-type($theme) == dark;
+  $disabled: inspection.get-theme-color($theme, foreground, base, 0.38);
+  $state-layer-color: inspection.get-theme-color($theme, foreground, base);
+  $ripple-color: inspection.get-theme-color($theme, foreground, base, 0.1);
 
   @return (
-    icon-button-disabled-icon-color: if($is-dark, rgba(#fff, 0.5), rgba(#000, 0.38)),
-    icon-button-disabled-state-layer-color: inspection.get-theme-color($theme, foreground, base),
+    icon-button-disabled-icon-color: $disabled,
+    icon-button-disabled-state-layer-color: $state-layer-color,
     icon-button-focus-state-layer-opacity: map.get($system, focus-state-layer-opacity),
     icon-button-hover-state-layer-opacity: map.get($system, hover-state-layer-opacity),
     icon-button-icon-color: inherit,
     icon-button-pressed-state-layer-opacity: map.get($system, pressed-state-layer-opacity),
-    icon-button-ripple-color: inspection.get-theme-color($theme, foreground, base, 0.1),
-    icon-button-state-layer-color: inspection.get-theme-color($theme, foreground, base),
+    icon-button-ripple-color: $ripple-color,
+    icon-button-state-layer-color: $state-layer-color,
   );
 }
 
 // Generates the mapping for the properties that change based on the button palette color.
 @function private-get-color-palette-color-tokens($theme, $palette-name) {
-  $color: inspection.get-theme-color($theme, $palette-name);
-  $ripple-opacity: 0.1;
+  $primary: inspection.get-theme-color($theme, $palette-name);
+  $ripple-color: inspection.get-theme-color($theme, $palette-name, 0.1);
 
   @return (
     icon-button-icon-color: inspection.get-theme-color($theme, $palette-name),
-    icon-button-state-layer-color: $color,
-    icon-button-ripple-color: if(
-      meta.type-of($color) == color,
-      rgba($color, $ripple-opacity),
-      inspection.get-theme-color($theme, foreground, base, $ripple-opacity)),
+    icon-button-state-layer-color: $primary,
+    icon-button-ripple-color: $ripple-color,
   );
 }
 

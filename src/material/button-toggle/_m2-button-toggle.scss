@@ -60,8 +60,7 @@
     button-toggle-selected-state-background-color:
         inspection.get-theme-color($theme, background, selected-button),
     button-toggle-selected-state-text-color: inspection.get-theme-color($theme, system, on-surface),
-    button-toggle-state-layer-color: sass-utils.safe-color-change(
-        inspection.get-theme-color($theme, background, focused-button), $alpha: 1),
+    button-toggle-state-layer-color: inspection.get-theme-color($theme, background, base),
     button-toggle-text-color: inspection.get-theme-color($theme, system, on-surface),
   );
 }
