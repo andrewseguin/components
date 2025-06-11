@@ -70,8 +70,14 @@
 }
 
 // Outputs a map of tokens.
-@mixin create-token-values($tokens) {
-  @include _create-token-values-internal($tokens, false);
+@mixin create-token-values($tokens, $version: 'm3') {
+  @if $version == 'm2' {
+    @include sass-utils.current-selector-or-root() {
+      @include _create-token-values-internal($tokens, true);
+    }
+  } @else if $version == 'm3' {
+    @include _create-token-values-internal($tokens, false);
+  }
 }
 
 // Outputs a map of tokens under a specific prefix in scenarios where tokens may be mixed with

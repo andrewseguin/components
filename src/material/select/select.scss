@@ -3,7 +3,7 @@
 @use '../core/style/vendor-prefixes';
 @use '../core/style/variables';
 @use '../core/tokens/token-utils';
-@use './m3-select';
+@use './select-tokens';
 
 $mat-select-arrow-size: 5px !default;
 $mat-select-arrow-margin: 4px !default;
@@ -13,7 +13,7 @@ $mat-select-placeholder-arrow-space: 2 *
 $leading-width: 12px !default;
 $scale: 0.75 !default;
 
-$fallbacks: m3-select.get-tokens();
+$fallbacks: select-tokens.get();
 
 @keyframes _mat-select-enter {
   from {

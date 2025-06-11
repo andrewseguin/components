@@ -115,6 +115,7 @@
 
 @function _define-system($primary, $accent, $warn, $is-dark) {
   $system: (
+    version: m2,
     primary: map.get($primary, default),
     on-primary: map.get($primary, default-contrast),
     secondary: map.get($accent, default),
@@ -227,6 +228,7 @@
   $accent: map.get($result, accent) or map.get($result, color, accent) or ();
   $warn: map.get($result, warn) or map.get($result, color, warn) or ();
   $theme: map.set($theme, _mat-system, _define-system($primary, $accent, $warn, $is-dark));
+  $theme: map.set($theme, version, m2);
   @return $theme;
 }
 

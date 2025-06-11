@@ -13,20 +13,24 @@
 
 // Gets the theme's system values as a flat map.
 @function get-system($theme) {
-  $system: ();
-  $system: map.merge($system,
+  @if map.get($theme, version) == 'm3' {
+    $system: (version: m3);
+    $system: map.merge($system,
       map.get($theme, _mat-theming-internals-do-not-access, md-sys-color));
-  $system: map.merge($system,
+    $system: map.merge($system,
       map.get($theme, _mat-theming-internals-do-not-access, md-sys-elevation));
-  $system: map.merge($system,
+    $system: map.merge($system,
       map.get($theme, _mat-theming-internals-do-not-access, md-sys-shape));
-  $system: map.merge($system,
+    $system: map.merge($system,
       map.get($theme, _mat-theming-internals-do-not-access, md-sys-state));
-  $system: map.merge($system,
+    $system: map.merge($system,
       map.get($theme, _mat-theming-internals-do-not-access, md-sys-typescale));
-  $system: map.merge($system,
+    $system: map.merge($system,
       map.get($theme, _mat-theming-internals-do-not-access, md-ref-palette));
-  @return $system;
+    @return $system;
+  } @else {
+    @return map.get($theme, _mat-system);
+  }
 }
 
 // Returns the color with an opacity value using color-mix. If the color is a variable name, it

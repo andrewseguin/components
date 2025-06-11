@@ -1,23 +1,11 @@
 @use 'sass:map';
-@use 'sass:list';
 @use '../core/style/elevation';
 @use '../core/tokens/m3-utils';
-@use '../core/theming/theming';
-@use '../core/theming/inspection';
 @use '../core/tokens/m3';
 
-// The prefix used to generate the fully qualified name for tokens in this file.
-$prefix: (mat, select);
-
-/// Generates custom tokens for the mat-select.
-/// @param {String} $color-variant The color variant to use for the component
-@function get-tokens($theme: m3.$sys-theme, $color-variant: null) {
-  $system: m3-utils.get-system($theme);
-  @if $color-variant {
-    $system: m3-utils.replace-colors-with-variant($system, primary, $color-variant);
-  }
-
-  @return (
+/// Generate the theming tokens for the component using the system values.
+@function get($system: m3.$sys-theme) {
+  $tokens: (
     base: (
       select-container-elevation-shadow: elevation.get-box-shadow(2),
     ),
@@ -40,16 +28,32 @@ $prefix: (mat, select);
       select-trigger-text-tracking: map.get($system, body-large-tracking),
       select-trigger-text-weight: map.get($system, body-large-weight),
     ),
-    density: get-density-tokens(map.get($theme, inspection.$internals, density-scale)),
+    density: (
+      select-arrow-transform: map.get((
+        0: translateY(-8px),
+        -1: translateY(-8px),
+        -2: none,
+        -3: none,
+        -4: none,
+        -5: none,
+      ), map.get($system, density-scale)),
+    )
   );
+
+  @if (map.get($system, version) == 'm2') {
+    $tokens: map.deep-merge($tokens, m2-overrides($system));
+  }
+
+  @return $tokens;
 }
 
-// Tokens that can be configured through Angular Material's density theming API.
-@function get-density-tokens($scale) {
-  $scale: theming.clamp-density($scale, -2);
-  $index: ($scale * -1) + 1;
-
+@function m2-overrides($system) {
   @return (
-    select-arrow-transform: list.nth((translateY(-8px), translateY(-8px), none), $index),
+    base: (
+      select-container-elevation-shadow: elevation.get-box-shadow(8),
+    ),
+    color: (
+      select-panel-background-color: map.get($system, surface),
+    ),
   );
 }

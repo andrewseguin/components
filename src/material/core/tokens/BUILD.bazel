@@ -77,7 +77,7 @@ sass_library(
         "//src/material/progress-bar:m3",
         "//src/material/progress-spinner:m3",
         "//src/material/radio:m3",
-        "//src/material/select:m3",
+        "//src/material/select:select-tokens",
         "//src/material/sidenav:m3",
         "//src/material/slide-toggle:m3",
         "//src/material/slider:m3",

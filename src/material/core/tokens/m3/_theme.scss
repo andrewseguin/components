@@ -44,4 +44,4 @@ $app-vars: (
   ),
 );
 
-$sys-theme: ($internals: $app-vars);
+$sys-theme: (version: 'm3', $internals: $app-vars);

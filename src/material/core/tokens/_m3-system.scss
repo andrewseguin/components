@@ -9,7 +9,7 @@
 @use '../../list/m3-list';
 @use '../../paginator/m3-paginator';
 @use '../../radio/m3-radio';
-@use '../../select/m3-select';
+@use '../../select/select-tokens';
 @use '../../stepper/m3-stepper';
 @use '../../table/m3-table';
 @use '../../tabs/m3-tabs';
@@ -160,6 +160,7 @@
 
 // Gets all density-related tokens from the components.
 @function get-density-tokens($scale) {
+  $system: (density-scale: $scale);
   @return (
     m3-checkbox.get-density-tokens($scale),
     m3-chip.get-density-tokens($scale),
@@ -172,7 +173,7 @@
     m3-paginator.get-density-tokens($scale),
     m3-radio.get-density-tokens($scale),
     m3-tabs.get-density-tokens($scale),
-    m3-select.get-density-tokens($scale),
+    map.get(select-tokens.get($system), density),
     m3-button-toggle.get-density-tokens($scale),
     m3-stepper.get-density-tokens($scale),
     m3-table.get-density-tokens($scale),

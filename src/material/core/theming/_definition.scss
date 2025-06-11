@@ -77,6 +77,7 @@ $theme-version: 1;
   $density-scale: map.get($density-config, scale) or 0;
 
   @return (
+    version: 'm3',
     $internals: (
       base-tokens: m3-tokens.generate-base-tokens(),
       color-system-variables-prefix: $color-system-variables-prefix,
