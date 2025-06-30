@@ -25,7 +25,9 @@ import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltip, MatTooltipModule} from '@angular/material/tooltip';
-import {RouterModule} from '@angular/router';
+import {ActivatedRoute, ParamMap, RouterModule} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {getAppState, setAppState} from './dev-app-state';
 import {DevAppRippleOptions} from './ripple-options';
 import {DevAppDirectionality} from './dev-app-directionality';
@@ -131,6 +133,10 @@ export class DevAppLayout {
 
   readonly isZoneless = this._ngZone instanceof ɵNoopNgZone;
 
+  private _queryParamSubscription = Subscription.EMPTY;
+
+  private _activatedRoute = inject(ActivatedRoute);
+
   constructor() {
     this.toggleTheme(this.state.darkTheme);
     this.toggleSystemTheme(this.state.systemTheme);
@@ -140,6 +146,14 @@ export class DevAppLayout {
     this.toggleDirection(this.state.direction);
     this.toggleM3(this.state.m3Enabled);
     this.toggleColorApiBackCompat(this.state.colorApiBackCompat);
+
+    this._queryParamSubscription = this._activatedRoute.queryParamMap
+      .pipe(map((params: ParamMap) => params.get('a11y')))
+      .subscribe((isA11y: string | null) => {
+        if (isA11y) {
+          // setup a11y mode
+        }
+      });
   }
 
   toggleTheme(value = !this.state.darkTheme) {
