@@ -2,7 +2,7 @@
 @use '../core/tokens/token-utils';
 @use '../core/typography/typography';
 @use './m2-badge';
-@use './m3-badge';
+@use 'badge-tokens';
 @use 'sass:color';
 @use 'sass:map';
 
@@ -10,12 +10,8 @@
 /// for the mat-badge.
 /// @param {Map} $theme The theme to generate base styles for.
 @mixin base($theme) {
-  $tokens: map.get(m2-badge.get-tokens($theme), base);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-badge.get-tokens($theme), base);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: badge-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, base));
 }
 
 /// Outputs color theme styles for the mat-badge.
@@ -24,21 +20,17 @@
 ///     the badge: primary, secondary, tertiary, or error (If not specified,
 ///     default error color will be used).
 @mixin color($theme, $color-variant: null) {
-  $tokens: map.get(m2-badge.get-tokens($theme), color);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-badge.get-tokens($theme, $color-variant), color);
-  }
-
+  $tokens: map.get(badge-tokens.get-tokens($theme, $color-variant), color);
   @include token-utils.values($tokens);
 
   @if inspection.get-theme-version($theme) != 1 {
     .mat-badge-accent {
-      $tokens: m2-badge.private-get-color-palette-color-tokens($theme, secondary);
+      $tokens: badge-tokens.m2-color-tokens($theme, secondary);
       @include token-utils.values($tokens);
     }
 
     .mat-badge-warn {
-      $tokens: m2-badge.private-get-color-palette-color-tokens($theme, error);
+      $tokens: badge-tokens.m2-color-tokens($theme, error);
       @include token-utils.values($tokens);
     }
   }
@@ -47,23 +39,15 @@
 /// Outputs typography theme styles for the mat-badge.
 /// @param {Map} $theme The theme to generate typography styles for.
 @mixin typography($theme) {
-  $tokens: map.get(m2-badge.get-tokens($theme), typography);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-badge.get-tokens($theme), typography);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: badge-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, typography));
 }
 
 /// Outputs density theme styles for the mat-badge.
 /// @param {Map} $theme The theme to generate density styles for.
 @mixin density($theme) {
-  $tokens: map.get(m2-badge.get-tokens($theme), density);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-badge.get-tokens($theme), density);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: badge-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, density));
 }
 
 /// Defines the tokens that will be available in the `overrides` mixin and for docs extraction.
@@ -71,7 +55,7 @@
   @return (
     (
       namespace: badge,
-      tokens: token-utils.get-overrides(m3-badge.get-tokens(), badge),
+      tokens: token-utils.get-overrides(badge-tokens.get-tokens(), badge),
     ),
   );
 }

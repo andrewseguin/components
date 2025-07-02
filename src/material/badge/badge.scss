@@ -1,13 +1,13 @@
 @use 'sass:color';
 @use '@angular/cdk';
-@use './m3-badge';
+@use 'badge-tokens';
 @use '../core/tokens/token-utils';
 
 $default-size: 22px !default;
 $small-size: $default-size - 6;
 $large-size: $default-size + 6;
 
-$fallbacks: m3-badge.get-tokens();
+$fallbacks: badge-tokens.get-tokens();
 
 @mixin _badge-size($size) {
   $prefix: if($size == 'medium', '', $size + '-size-');

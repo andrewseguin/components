@@ -2,43 +2,26 @@
 @use '../core/theming/inspection';
 @use '../core/typography/typography';
 @use '../core/tokens/token-utils';
-@use 'm2-autocomplete';
-@use 'm3-autocomplete';
+@use './autocomplete-tokens';
 
 @mixin base($theme) {
-  $tokens: map.get(m2-autocomplete.get-tokens($theme), base);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-autocomplete.get-tokens($theme), base);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: autocomplete-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, base));
 }
 
 @mixin color($theme) {
-  $tokens: map.get(m2-autocomplete.get-tokens($theme), color);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-autocomplete.get-tokens($theme), color);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: autocomplete-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, color));
 }
 
 @mixin typography($theme) {
-  $tokens: map.get(m2-autocomplete.get-tokens($theme), typography);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-autocomplete.get-tokens($theme), typography);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: autocomplete-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, typography));
 }
 
 @mixin density($theme) {
-  $tokens: map.get(m2-autocomplete.get-tokens($theme), density);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-autocomplete.get-tokens($theme), density);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: autocomplete-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, density));
 }
 
 /// Defines the tokens that will be available in the `overrides` mixin and for docs extraction.
@@ -46,7 +29,7 @@
   @return (
     (
       namespace: autocomplete,
-      tokens: token-utils.get-overrides(m3-autocomplete.get-tokens(), autocomplete),
+      tokens: token-utils.get-overrides(autocomplete-tokens.get-tokens(), autocomplete),
     ),
   );
 }

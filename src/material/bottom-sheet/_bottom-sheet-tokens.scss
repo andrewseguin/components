@@ -1,11 +1,13 @@
 @use 'sass:map';
 @use '../core/tokens/m3-utils';
 @use '../core/tokens/m3';
+@use '../core/theming/inspection';
 
 /// Generates custom tokens for the mat-bottom-sheet.
 @function get-tokens($theme: m3.$sys-theme) {
   $system: m3-utils.get-system($theme);
-  @return (
+
+  $tokens: (
     base: (
       bottom-sheet-container-shape: 28px,
     ),
@@ -21,5 +23,31 @@
       bottom-sheet-container-text-weight: map.get($system, body-large-weight),
     ),
     density: (),
+  );
+
+  @if inspection.get-theme-version($theme) != 1 {
+    $tokens: map.deep-merge($tokens, m2-tokens($theme));
+  }
+
+  @return $tokens;
+}
+
+@function m2-tokens($theme) {
+  $system: m3-utils.get-system($theme);
+
+  @return (
+    base: (
+      bottom-sheet-container-shape: 4px,
+    ),
+    color: (
+      bottom-sheet-container-background-color: map.get($system, surface),
+    ),
+    typography: (
+      bottom-sheet-container-text-font: map.get($system, body-medium-font),
+      bottom-sheet-container-text-line-height: map.get($system, body-medium-line-height),
+      bottom-sheet-container-text-size: map.get($system, body-medium-size),
+      bottom-sheet-container-text-tracking: map.get($system, body-medium-tracking),
+      bottom-sheet-container-text-weight: map.get($system, body-medium-weight),
+    ),
   );
 }

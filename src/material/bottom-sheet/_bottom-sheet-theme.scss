@@ -3,42 +3,26 @@
 @use '../core/theming/inspection';
 @use '../core/tokens/token-utils';
 @use './m2-bottom-sheet';
-@use './m3-bottom-sheet';
+@use 'bottom-sheet-tokens';
 
 @mixin base($theme) {
-  $tokens: map.get(m2-bottom-sheet.get-tokens($theme), base);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-bottom-sheet.get-tokens($theme), base);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: bottom-sheet-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, base));
 }
 
 @mixin color($theme) {
-  $tokens: map.get(m2-bottom-sheet.get-tokens($theme), color);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-bottom-sheet.get-tokens($theme), color);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: bottom-sheet-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, color));
 }
 
 @mixin typography($theme) {
-  $tokens: map.get(m2-bottom-sheet.get-tokens($theme), typography);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-bottom-sheet.get-tokens($theme), typography);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: bottom-sheet-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, typography));
 }
 
 @mixin density($theme) {
-  $tokens: map.get(m2-bottom-sheet.get-tokens($theme), density);
-  @if inspection.get-theme-version($theme) == 1 {
-    $tokens: map.get(m3-bottom-sheet.get-tokens($theme), density);
-  }
-
-  @include token-utils.values($tokens);
+  $tokens: bottom-sheet-tokens.get-tokens($theme);
+  @include token-utils.values(map.get($tokens, density));
 }
 
 /// Defines the tokens that will be available in the `overrides` mixin and for docs extraction.
@@ -46,7 +30,7 @@
   @return (
     (
       namespace: bottom-sheet,
-      tokens: token-utils.get-overrides(m3-bottom-sheet.get-tokens(), bottom-sheet)
+      tokens: token-utils.get-overrides(bottom-sheet-tokens.get-tokens(), bottom-sheet)
     ),
   );
 }

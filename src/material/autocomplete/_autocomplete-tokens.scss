@@ -1,13 +1,10 @@
 @use 'sass:map';
+@use '../core/theming/inspection';
 @use '../core/style/elevation';
 @use '../core/tokens/m3-utils';
 @use '../core/tokens/m3';
 
-/// Generates custom tokens for the mat-autocomplete.
-/// @param {Map} $systems The MDC system tokens
-/// @param {Boolean} $exclude-hardcoded Whether to exclude hardcoded token values
-/// @param {Map} $token-slots Possible token slots
-/// @return {Map} A set of custom tokens for the mat-autocomplete
+/// Gets the tokens for the autocomplete.
 @function get-tokens($theme: m3.$sys-theme) {
   $system: m3-utils.get-system($theme);
   $tokens: (
@@ -22,5 +19,22 @@
     density: (),
   );
 
+  @if inspection.get-theme-version($theme) != 1 {
+    $tokens: map.deep-merge($tokens, m2-tokens($theme));
+  }
+
   @return $tokens;
+}
+
+@function m2-tokens($theme) {
+  $system: m3-utils.get-system($theme);
+  @return (
+    base: (
+      autocomplete-container-shape: 4px,
+      autocomplete-container-elevation-shadow: elevation.get-box-shadow(8),
+    ),
+    color: (
+      autocomplete-background-color: map.get($system, surface)
+    ),
+  );
 }

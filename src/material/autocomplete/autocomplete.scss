@@ -1,8 +1,8 @@
 @use '@angular/cdk';
-@use './m3-autocomplete';
+@use 'autocomplete-tokens';
 @use '../core/tokens/token-utils';
 
-$fallbacks: m3-autocomplete.get-tokens();
+$fallbacks: autocomplete-tokens.get-tokens();
 
 // Even though we don't use the MDC styles, we need to keep the classes in the
 // DOM for the Gmat versions to work. We need to bump up the specificity here

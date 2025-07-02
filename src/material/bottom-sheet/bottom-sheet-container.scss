@@ -1,6 +1,6 @@
 @use '@angular/cdk';
 @use '../core/style/elevation';
-@use './m3-bottom-sheet';
+@use 'bottom-sheet-tokens';
 @use '../core/tokens/token-utils';
 
 // The bottom sheet minimum width on larger screen sizes is based
@@ -10,7 +10,7 @@ $_width-increment: 64px;
 $container-vertical-padding: 8px !default;
 $container-horizontal-padding: 16px !default;
 
-$fallbacks: m3-bottom-sheet.get-tokens();
+$fallbacks: bottom-sheet-tokens.get-tokens();
 
 @keyframes _mat-bottom-sheet-enter {
   from {
