@@ -415,6 +415,36 @@ describe('material-theme-color-schematic', () => {
         expect(generatedCSS).toContain(`--mat-sys-error: #ffebef`);
       });
     });
+
+    describe('and with optimized colors', () => {
+      it('should be able to generate a theme with optimized role colors', async () => {
+        const tree = await runM3ThemeSchematic(runner, {
+          primaryColor: '#984061',
+          useOptimizedColors: true,
+        });
+
+        const generatedCSS = transpileTheme(tree.readText('_theme-colors.scss'));
+
+        // Check a system variable from each color palette for their high contrast light theme value
+        expect(generatedCSS).not.toContain(`--mat-sys-primary: #984061`);
+        expect(generatedCSS).toContain(`--mat-sys-primary: light-dark(#893455, #ffb0c8)`);
+        expect(generatedCSS).toContain(`--mat-sys-secondary: light-dark(#7e525f, #efb8c7)`);
+        expect(generatedCSS).toContain(`--mat-sys-tertiary: light-dark(#974810, #ffb68e)`);
+      });
+
+      it('should generate a theme with fidelity colors by default', async () => {
+        const tree = await runM3ThemeSchematic(runner, {
+          primaryColor: '#984061',
+        });
+
+        const generatedCSS = transpileTheme(tree.readText('_theme-colors.scss'));
+
+        // Check a system variable from each color palette for their high contrast light theme value
+        expect(generatedCSS).toContain(`--mat-sys-primary: light-dark(#984061, #ffb0c8)`);
+        expect(generatedCSS).toContain(`--mat-sys-secondary: light-dark(#7e525f, #efb8c7)`);
+        expect(generatedCSS).toContain(`--mat-sys-tertiary: light-dark(#974810, #ffb68e)`);
+      });
+    });
   });
 
   describe('with CSS output', () => {

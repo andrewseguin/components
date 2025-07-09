@@ -34,6 +34,12 @@
       "description": "Color for the error palette",
       "x-prompt": "What HEX color should be used represent the error palette? (Leave blank to use generated colors from Material)"
     },
+    "useOptimizedColors": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to use optimized role colors instead of tones that stay true to the input color.",
+      "x-prompt": "Do you want to use optimized role colors? (This is the same as unchecking 'Color match' in the Material Theme Builder)"
+    },
     "includeHighContrast": {
       "type": "boolean",
       "default": false,
