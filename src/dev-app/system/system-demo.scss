@@ -27,3 +27,36 @@ section {
   margin-inline: 3rem;
   max-width: 75px;
 }
+
+.typography-table {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.typography-header-row,
+.typography-row {
+  display: contents;
+}
+
+.typography-header-row > div,
+.typography-row > div {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.typography-header-row > div {
+  font-weight: 500;
+  background-color: var(--mat-sys-surface-container-low);
+}
+
+/* Remove bottom border from the last row */
+.typography-table > .typography-row:last-child > div {
+  border-bottom: none;
+}
+
+.typography-role-name {
+  color: var(--mat-sys-on-surface-variant);
+}

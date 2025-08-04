@@ -1,3 +1,4 @@
+<h1> Colors </h1>
 @for (group of colorGroups; track $index) {
   <h2>{{group.name}}</h2>
 
@@ -19,3 +20,20 @@
     </mat-card>
   }
 }
+
+<h2>Typography</h2>
+
+<div class="typography-table">
+  <div class="typography-header-row">
+    <div>Role</div>
+    <div>Example</div>
+  </div>
+  @for (role of typographyRoles; track role) {
+    <div class="typography-row">
+      <div class="typography-role-name">{{role}}</div>
+      <div class="typography-sample-text" style="font: var(--mat-sys-{{role}})">The quick brown fox jumps over the lazy dog.</div>
+    </div>
+  }
+</div>
+
+
