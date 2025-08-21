@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "SchematicsMaterialTailwindTheme",
+  "title": "Material Tailwind Theme Options Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the theme file.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What should be the name of the theme file?"
+    },
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    }
+  },
+  "required": ["name"]
+}

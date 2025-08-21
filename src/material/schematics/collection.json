@@ -50,6 +50,11 @@
       "factory": "./ng-generate/theme-color/index_bundled",
       "schema": "./ng-generate/theme-color/schema.json",
       "aliases": ["theme-color"]
+    },
+    "tailwind-theme": {
+      "description": "Create Tailwind theme based on Material's system tokens",
+      "factory": "./ng-generate/tailwind-theme/index",
+      "schema": "./ng-generate/tailwind-theme/schema.json"
     }
   }
 }
